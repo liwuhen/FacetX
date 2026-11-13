@@ -9,7 +9,7 @@ import { OverrideComponentReturn } from "../types";
 
 export const MuiLink: OverrideComponentReturn<"MuiLink"> = {
   defaultProps: {
-    color: "primary",
+    color: "info.main",
   },
   styleOverrides: {
     root: {

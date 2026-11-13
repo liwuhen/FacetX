@@ -22,7 +22,10 @@ import { makeMockAppConfiguration } from "@facetx/suite-base/util/makeMockAppCon
 
 import { AppBar } from ".";
 
-function Wrapper({ children }: React.PropsWithChildren): React.JSX.Element {
+function Wrapper({
+  children,
+  mode = "dark",
+}: React.PropsWithChildren<{ mode?: "light" | "dark" }>): React.JSX.Element {
   const appConfiguration = makeMockAppConfiguration();
   const providers = [
     /* eslint-disable react/jsx-key */
@@ -32,7 +35,7 @@ function Wrapper({ children }: React.PropsWithChildren): React.JSX.Element {
     <TimelineInteractionStateProvider />,
     <MockMessagePipelineProvider />,
     <MockCurrentLayoutProvider />,
-    <ThemeProvider isDark />,
+    <ThemeProvider isDark={mode === "dark"} />,
     <LayoutManagerContext.Provider value={new MockLayoutManager()} />,
     /* eslint-enable react/jsx-key */
   ];
@@ -40,6 +43,27 @@ function Wrapper({ children }: React.PropsWithChildren): React.JSX.Element {
 }
 
 describe("<AppBar />", () => {
+  it("uses the Harness toolbar background and text colors when switching schemes", () => {
+    const { getByRole, rerender } = render(
+      <Wrapper mode="light">
+        <AppBar />
+      </Wrapper>,
+    );
+
+    const appBar = getByRole("banner");
+    expect(getComputedStyle(appBar).backgroundColor).toBe("rgb(249, 250, 251)");
+    expect(getComputedStyle(appBar).color).toBe("rgb(15, 17, 21)");
+
+    rerender(
+      <Wrapper mode="dark">
+        <AppBar />
+      </Wrapper>,
+    );
+
+    expect(getComputedStyle(appBar).backgroundColor).toBe("rgb(27, 27, 28)");
+    expect(getComputedStyle(appBar).color).toBe("rgb(249, 250, 251)");
+  });
+
   it("calls functions for custom window controls", async () => {
     const mockMinimize = jest.fn();
     const mockMaximize = jest.fn();

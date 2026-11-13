@@ -22,6 +22,11 @@ export const MuiFilledInput: OverrideComponentReturn<"MuiFilledInput"> = {
     }),
     root: ({ theme }) => ({
       borderRadius: theme.shape.borderRadius,
+      backgroundColor: theme.palette.background.input,
+
+      "&:hover": {
+        backgroundColor: theme.palette.action.hover,
+      },
 
       "&.Mui-focused": {
         backgroundColor: theme.palette.action.focus,

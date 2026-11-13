@@ -6,7 +6,7 @@ import { makeStyles } from "tss-react/mui";
 export const useStyles = makeStyles()((theme) => ({
   root: {
     boxSizing: "content-box",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.sidebar,
   },
   badgeRoot: {
     display: "flex",

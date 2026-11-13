@@ -8,7 +8,7 @@ Use this workflow when changes are ready for review.
 ## Inputs
 
 - Source branch
-- Target branch (default: `develop`)
+- Target branch (default: `main`)
 - Related issue number(s)
 
 ## Detect contributor type
@@ -55,7 +55,7 @@ Use `.github/pull_request_template.md` as the PR body structure.
 
 ## CodeRabbit
 
-Once the PR is opened as non-draft targeting `develop` or `main`, CodeRabbit will auto-review it.
+Once the PR is opened as non-draft targeting `main`, CodeRabbit will auto-review it.
 - Do not request human review before CodeRabbit has posted its summary.
 - Address CodeRabbit's Critical and High findings before requesting human review.
 

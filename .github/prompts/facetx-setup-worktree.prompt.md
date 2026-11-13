@@ -11,12 +11,12 @@ Ask the user for the following before proceeding:
 
 1. **Task type** — `feature`, `bugfix`, or `hotfix` (determines branch prefix). Not required when setting up a worktree to review an existing PR.
 2. **Branch short name** — e.g., `improve-plot-rendering` (without prefix)
-3. **Base branch** — default `origin/develop`; ask if different
+3. **Base branch** — default `origin/main`; ask if different
 4. **PR number** (optional) — when creating a worktree to **review a pull request**, provide its number (e.g. `1170`). The worktree folder is named `pr-{id}` instead of `{short-name}`, and the PR's head branch is checked out from an existing branch.
 
 ## Branch Naming
 
-Branch names are **CI-enforced**. Construct the full branch name as `{type}/{short-name}`, e.g. `feature/improve-plot-rendering`.
+Construct the full branch name as `{type}/{short-name}`, e.g. `feature/improve-plot-rendering`.
 
 See [branch naming conventions](../instructions/contributing.instructions.md#branch-naming) for the full rules.
 
@@ -28,8 +28,8 @@ Check whether an `upstream` remote exists:
 git remote -v
 ```
 
-- If `upstream` is present → **fork contributor** (use `upstream/develop` as base, push to `origin`)
-- If not → **internal team member** (use `origin/develop` as base)
+- If `upstream` is present → **fork contributor** (use `upstream/main` as base, push to `origin`)
+- If not → **internal team member** (use `origin/main` as base)
 
 For fork contributors, ensure `upstream` is up to date before branching:
 

@@ -8,7 +8,6 @@
 import { ChevronDown12Filled } from "@fluentui/react-icons";
 import { ButtonBase, ButtonBaseProps, Typography } from "@mui/material";
 import { forwardRef } from "react";
-import tinycolor2 from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
 import Stack from "@facetx/suite-base/components/Stack";
@@ -36,10 +35,10 @@ const useStyles = makeStyles()((theme) => ({
     borderRadius: 0,
 
     ":hover": {
-      backgroundColor: tinycolor2(theme.palette.appBar.text).setAlpha(0.08).toString(),
+      backgroundColor: theme.palette.action.hover,
     },
     "&.Mui-selected": {
-      backgroundColor: theme.palette.appBar.primary,
+      backgroundColor: theme.palette.appBar.selected,
     },
   },
 }));

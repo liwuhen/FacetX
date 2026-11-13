@@ -42,7 +42,7 @@ const useStyles = makeStyles<void, "adornmentError">()((theme, _params, _classes
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
-    color: theme.palette.appBar.primary,
+    color: theme.palette.text.secondary,
     width: ICON_SIZE,
     height: ICON_SIZE,
   },
