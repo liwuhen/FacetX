@@ -231,10 +231,50 @@ describe("ImageRenderable error handling", () => {
     expect(mockRemoveFromTopic).toHaveBeenCalledWith(mockUserData.topic, "decode");
   });
 
+  it("does not submit or paint a keyframe when decoder initialization is canceled by a seek", async () => {
+    const renderable = new ImageRenderable(mockUserData.topic, mockRenderer, { ...mockUserData });
+    let cancelInit!: () => void;
+    const init = jest.fn().mockReturnValueOnce(
+      new Promise<boolean>((resolve) => {
+        cancelInit = () => {
+          resolve(false);
+        };
+      }),
+    );
+    const decode = jest.fn().mockResolvedValue(undefined);
+    renderable.videoPlayer = {
+      isInitialized: jest.fn().mockReturnValue(true),
+      init,
+      decode,
+      codedSize: jest.fn(),
+      resetForSeek: jest.fn(),
+    } as unknown as ImageRenderable["videoPlayer"];
+    const keyframe = {
+      format: "h264",
+      timestamp: { sec: 0, nsec: 0 },
+      frame_id: "camera",
+      data: new Uint8Array([
+        0, 0, 0, 1, 0x67, 0x4d, 0x0c, 0x33, 0x96, 0x54, 0x01, 0xe0, 0x02, 0x1f, 0x20, 0, 0, 1, 0x65,
+      ]),
+    };
+    const onDecoded = jest.fn();
+    renderable.setImage(keyframe, undefined, onDecoded);
+    renderable.flushPendingDecodes();
+    expect(init).toHaveBeenCalledTimes(1);
+
+    renderable.resetVideoForSeek();
+    cancelInit();
+    await renderable.settleVideoDecodes();
+
+    expect(decode).not.toHaveBeenCalled();
+    expect(onDecoded).not.toHaveBeenCalled();
+    expect(renderable.getDecodedImage()).toBeUndefined();
+  });
+
   it("should initialize h265 decoding for a keyframe with VPS SPS PPS", async () => {
     const renderable = new ImageRenderable(mockUserData.topic, mockRenderer, { ...mockUserData });
     jest.spyOn(renderable, "update").mockImplementation(() => undefined);
-    const init = jest.fn().mockResolvedValue(undefined);
+    const init = jest.fn().mockResolvedValue(true);
     const decodeFrames = jest.fn().mockResolvedValue({
       type: "target",
       frame: createDecodedVideoFrame(),
@@ -315,7 +355,7 @@ describe("ImageRenderable error handling", () => {
   it("should wait silently on h265 delta frames before decoder init", async () => {
     const renderable = new ImageRenderable(mockUserData.topic, mockRenderer, { ...mockUserData });
     jest.spyOn(renderable, "update").mockImplementation(() => undefined);
-    const init = jest.fn().mockResolvedValue(undefined);
+    const init = jest.fn().mockResolvedValue(true);
     const decode = jest.fn().mockResolvedValue(createDecodedVideoFrame());
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(false),
@@ -357,7 +397,7 @@ describe("ImageRenderable error handling", () => {
     const resetForSeek = jest.fn();
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(false),
-      init: jest.fn().mockResolvedValue(undefined),
+      init: jest.fn().mockResolvedValue(true),
       decode: jest.fn().mockResolvedValue(createDecodedVideoFrame()),
       decodeFrames: jest.fn().mockResolvedValue({
         type: "target",
@@ -392,7 +432,7 @@ describe("ImageRenderable error handling", () => {
     const resetForSeek = jest.fn();
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(false),
-      init: jest.fn().mockResolvedValue(undefined),
+      init: jest.fn().mockResolvedValue(true),
       decode: jest.fn().mockResolvedValue(createDecodedVideoFrame()),
       decodeFrames: jest.fn().mockResolvedValue({
         type: "target",
@@ -497,7 +537,7 @@ describe("ImageRenderable error handling", () => {
       .mockResolvedValueOnce(createDecodedVideoFrame(33333));
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(true),
-      init: jest.fn().mockResolvedValue(undefined),
+      init: jest.fn().mockResolvedValue(true),
       decode,
       codedSize: jest.fn(),
       decoderConfig: jest.fn().mockReturnValue({ codec: "hvc1.1.6.L93.B0" }),
@@ -568,7 +608,7 @@ describe("ImageRenderable error handling", () => {
       .mockResolvedValueOnce(createDecodedVideoFrame(16666));
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(true),
-      init: jest.fn().mockResolvedValue(undefined),
+      init: jest.fn().mockResolvedValue(true),
       decode,
       codedSize: jest.fn(),
       decoderConfig: jest.fn().mockReturnValue({ codec: "hvc1.1.6.L93.B0" }),
@@ -626,7 +666,7 @@ describe("ImageRenderable error handling", () => {
       );
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(true),
-      init: jest.fn().mockResolvedValue(undefined),
+      init: jest.fn().mockResolvedValue(true),
       decode,
       codedSize: jest.fn(),
       decoderConfig: jest.fn().mockReturnValue({ codec: "hvc1.1.6.L93.B0" }),
@@ -684,7 +724,7 @@ describe("ImageRenderable error handling", () => {
     const lastImageBitmap = new ImageBitmap();
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(true),
-      init: jest.fn().mockResolvedValue(undefined),
+      init: jest.fn().mockResolvedValue(true),
       decode: jest.fn().mockResolvedValue(undefined),
       codedSize: jest.fn(),
       decoderConfig: jest.fn().mockReturnValue({ codec: "hvc1.1.6.L93.B0" }),
@@ -730,7 +770,7 @@ describe("ImageRenderable error handling", () => {
     const decode = jest.fn();
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(true),
-      init: jest.fn().mockResolvedValue(undefined),
+      init: jest.fn().mockResolvedValue(true),
       decode,
       codedSize: jest.fn(),
       decoderConfig: jest.fn().mockReturnValue({ codec: "hvc1.1.6.L93.B0" }),
@@ -756,7 +796,7 @@ describe("ImageRenderable error handling", () => {
     const renderable = new ImageRenderable(mockUserData.topic, mockRenderer, { ...mockUserData });
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(true),
-      init: jest.fn().mockResolvedValue(undefined),
+      init: jest.fn().mockResolvedValue(true),
       decode: jest.fn(),
       codedSize: jest.fn(),
       decoderConfig: jest.fn().mockReturnValue({ codec: "hvc1.1.6.L93.B0" }),
@@ -800,7 +840,7 @@ describe("ImageRenderable error handling", () => {
       .mockResolvedValueOnce(createDecodedVideoFrame(0))
       .mockResolvedValueOnce(createDecodedVideoFrame(16666))
       .mockResolvedValueOnce(createDecodedVideoFrame(33333));
-    const init = jest.fn().mockResolvedValue(undefined);
+    const init = jest.fn().mockResolvedValue(true);
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(true),
       init,
@@ -855,7 +895,7 @@ describe("ImageRenderable error handling", () => {
       }
       return { type: "target", frame: replayFrame };
     });
-    const init = jest.fn().mockResolvedValue(undefined);
+    const init = jest.fn().mockResolvedValue(true);
     const resetForSeek = jest.fn();
     renderable.videoPlayer = {
       isInitialized: jest.fn().mockReturnValue(true),
@@ -908,7 +948,7 @@ describe("ImageRenderable error handling", () => {
   it("should wait for a new h265 keyframe after a decode error", async () => {
     const renderable = new ImageRenderable(mockUserData.topic, mockRenderer, { ...mockUserData });
     jest.spyOn(renderable, "update").mockImplementation(() => undefined);
-    const init = jest.fn().mockResolvedValue(undefined);
+    const init = jest.fn().mockResolvedValue(true);
     const decode = jest
       .fn<Promise<VideoFrame | undefined>, [Uint8Array, number, "key" | "delta"]>()
       .mockResolvedValueOnce(createDecodedVideoFrame(0))

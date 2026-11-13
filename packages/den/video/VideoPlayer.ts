@@ -62,6 +62,7 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
   readonly #decoderInit: VideoDecoderInit;
   #decoder: VideoDecoder;
   #decoderConfig: VideoDecoderConfig | undefined;
+  #initializationGeneration = 0;
   readonly #mutex = new Mutex();
   readonly #frameWaiters = new Map<number, FrameWaiter>();
   #lastSubmittedTimestampMicros: number | undefined;
@@ -125,9 +126,14 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
    * Configures the VideoDecoder with the given VideoDecoderConfig. This must be called before
    * `decode()` or `decodeFrames()` will return a VideoFrame. Prefer software H.264 decoding for
    * frame-by-frame playback, since hardware decoders can buffer several frames before output.
+   * Returns false if configuration fails or a seek or close invalidates this request.
    */
-  public async init(decoderConfig: VideoDecoderConfig): Promise<void> {
-    await this.#mutex.runExclusive(async () => {
+  public async init(decoderConfig: VideoDecoderConfig): Promise<boolean> {
+    const generation = this.#initializationGeneration;
+    const configured = await this.#mutex.runExclusive(async () => {
+      if (generation !== this.#initializationGeneration) {
+        return false;
+      }
       // optimizeForLatency lets the decoder emit frames as soon as they are ready instead of
       // waiting on a full flush, which means callers do not need to call flush() per chunk.
       // See <https://github.com/w3c/webcodecs/issues/206>.
@@ -147,6 +153,9 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
           (result) => result.supported === true,
           () => false,
         );
+        if (generation !== this.#initializationGeneration) {
+          return false;
+        }
         if (supportsSoftware) {
           preferredConfig.hardwareAcceleration = softwareConfig.hardwareAcceleration;
         }
@@ -178,7 +187,7 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
             `Failed to configure VideoDecoder with ${JSON.stringify(fallbackConfig)}: ${(fallbackError as Error).message}`,
           );
           this.emit("error", err);
-          return;
+          return false;
         }
       }
 
@@ -194,7 +203,9 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
           height: this.#decoderConfig.codedHeight,
         };
       }
+      return true;
     });
+    return configured && generation === this.#initializationGeneration;
   }
 
   /** Returns true if the VideoDecoder is open and configured, ready for decoding. */
@@ -402,6 +413,7 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
   }
 
   #disposePendingState(): void {
+    this.#initializationGeneration++;
     // The decoder is reset/closed by the caller before this runs, so any still-registered waiter
     // will never receive its frame. Abort them all (load-bearing on seek: a post-seek frame could
     // otherwise reuse the same timestamp as a stale waiter).

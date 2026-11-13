@@ -443,7 +443,7 @@ export class ImageRenderable extends Renderable<ImageUserData> {
     try {
       const skipRender = options?.skipRender ?? false;
       const result = await this.decodeImage(image, resizeWidth);
-      if (this.isDisposed()) {
+      if (result == undefined || this.isDisposed()) {
         return;
       }
       if (this.#displayedImageSequenceNumber > seq) {
@@ -629,7 +629,9 @@ export class ImageRenderable extends Renderable<ImageUserData> {
     }
 
     this.videoPlayer.resetForSeek();
-    await this.videoPlayer.init(decoderConfig);
+    if (!(await this.videoPlayer.init(decoderConfig))) {
+      return undefined;
+    }
     const result = await this.videoPlayer.decodeFrames(
       gop.map((entry): EncodedVideoFrame => {
         const preparedFrame = prepareVideoFrame(entry.frame, undefined, this.#codec);
@@ -663,7 +665,7 @@ export class ImageRenderable extends Renderable<ImageUserData> {
   protected async decodeImage(
     image: AnyImage,
     resizeWidth?: number,
-  ): Promise<ImageBitmap | ImageData> {
+  ): Promise<ImageBitmap | ImageData | undefined> {
     if ("format" in image) {
       if (this.#codec == undefined) {
         return await decodeCompressedImageToBitmap(image, resizeWidth);
@@ -717,7 +719,9 @@ export class ImageRenderable extends Renderable<ImageUserData> {
                 : undefined;
               return replayBitmap ?? (await emptyVideoFrame(videoPlayer, resizeWidth));
             }
-            await videoPlayer.init(decoderConfig);
+            if (!(await videoPlayer.init(decoderConfig))) {
+              return undefined;
+            }
             this.#waitingForVideoKeyframe = false;
             this.#canReplayVideoGop = false;
           } else {

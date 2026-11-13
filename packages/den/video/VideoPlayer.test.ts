@@ -220,6 +220,52 @@ describe("VideoPlayer", () => {
     expect(player.decoderConfig()?.hardwareAcceleration).toBeUndefined();
   });
 
+  it("does not reopen a decoder closed while the H.264 support probe is pending", async () => {
+    const { player, decoders } = setup();
+    let resolveProbe!: (support: VideoDecoderSupport) => void;
+    const probe = jest.spyOn(VideoDecoder, "isConfigSupported").mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolveProbe = resolve;
+      }),
+    );
+
+    const init = player.init({ codec: "avc1.4D0C33" });
+    await jest.advanceTimersByTimeAsync(0);
+    expect(probe).toHaveBeenCalledTimes(1);
+
+    player.close();
+    resolveProbe({ supported: true });
+    await expect(init).resolves.toBe(false);
+
+    expect(decoders.map((decoder) => decoder.state)).toEqual(["closed"]);
+    expect(player.decoderConfig()).toBeUndefined();
+  });
+
+  it("keeps the decoder unconfigured after a seek during the H.264 support probe", async () => {
+    const { player, decoders } = setup();
+    let resolveProbe!: (support: VideoDecoderSupport) => void;
+    const probe = jest.spyOn(VideoDecoder, "isConfigSupported").mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolveProbe = resolve;
+      }),
+    );
+
+    const init = player.init({ codec: "avc1.4D0C33" });
+    await jest.advanceTimersByTimeAsync(0);
+    expect(probe).toHaveBeenCalledTimes(1);
+
+    player.resetForSeek();
+    resolveProbe({ supported: true });
+    await expect(init).resolves.toBe(false);
+
+    expect(decoders.map((decoder) => decoder.state)).toEqual(["unconfigured"]);
+    expect(player.decoderConfig()).toBeUndefined();
+
+    await expect(player.init({ codec: "avc1.4D0C32" })).resolves.toBe(true);
+    expect(player.isInitialized()).toBe(true);
+    expect(player.decoderConfig()?.codec).toBe("avc1.4D0C32");
+  });
+
   it("should not return an intermediate HEVC frame before decode queue drain", async () => {
     // Given an HEVC-configured player with a tracking decoder
     const { player, outputFrames } = setup({ trackDecodes: true });
