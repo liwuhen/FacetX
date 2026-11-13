@@ -128,7 +128,7 @@ export const mainConfig =
     });
     const workspace = process.env.DEV_WORKSPACE;
     const storageKey = `${workspace ? `${workspace}.` : ""}${APP_CONFIGURATION_STORAGE_PREFIX}${AppSetting.COLOR_SCHEME}`;
-    const inlineStorageKey = JSON.stringify(storageKey).replaceAll("<", "\\u003c");
+    const inlineStorageKey = JSON.stringify(storageKey)!.replaceAll("<", "\\u003c");
 
     const config: Configuration = {
       name: "main",
