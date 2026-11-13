@@ -11,13 +11,7 @@ import * as THREE from "three";
 import { Opaque } from "ts-essentials";
 
 import { filterMap } from "@facetx/den/collection";
-import {
-  ICameraModel,
-  Immutable,
-  MessageEvent,
-  SettingsTreeAction,
-  Topic,
-} from "@facetx/suite";
+import { ICameraModel, Immutable, MessageEvent, SettingsTreeAction, Topic } from "@facetx/suite";
 import { Path } from "@facetx/suite-base/panels/ThreeDeeRender/LayerErrors";
 import { onlyLastByTopicMessage } from "@facetx/suite-base/panels/ThreeDeeRender/SceneExtension";
 import {

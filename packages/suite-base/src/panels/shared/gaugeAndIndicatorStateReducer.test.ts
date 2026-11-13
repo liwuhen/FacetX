@@ -20,12 +20,9 @@ jest.mock("@facetx/message-path", () => ({
   parseMessagePath: jest.fn(),
 }));
 
-jest.mock(
-  "@facetx/suite-base/components/MessagePathSyntax/simpleGetMessagePathDataItems",
-  () => ({
-    simpleGetMessagePathDataItems: jest.fn(),
-  }),
-);
+jest.mock("@facetx/suite-base/components/MessagePathSyntax/simpleGetMessagePathDataItems", () => ({
+  simpleGetMessagePathDataItems: jest.fn(),
+}));
 
 describe("getSingleDataItem", () => {
   it("should return the single item when the array has one element", () => {

@@ -64,10 +64,7 @@ import {
   LayoutState,
   useCurrentLayoutSelector,
 } from "@facetx/suite-base/context/CurrentLayoutContext";
-import {
-  useCurrentUser,
-  useCurrentUserType,
-} from "@facetx/suite-base/context/CurrentUserContext";
+import { useCurrentUser, useCurrentUserType } from "@facetx/suite-base/context/CurrentUserContext";
 import { EventsStore, useEvents } from "@facetx/suite-base/context/EventsContext";
 import { useLayoutManager } from "@facetx/suite-base/context/LayoutManagerContext";
 import { usePlayerSelection } from "@facetx/suite-base/context/PlayerSelectionContext";

@@ -8,10 +8,7 @@
 import { StoryObj } from "@storybook/react-webpack5";
 import { fireEvent, screen } from "@storybook/testing-library";
 
-import {
-  ShareJsonModal,
-  ShareJsonModalProps,
-} from "@facetx/suite-base/components/ShareJsonModal";
+import { ShareJsonModal, ShareJsonModalProps } from "@facetx/suite-base/components/ShareJsonModal";
 
 export default {
   title: "components/ShareJsonModal",

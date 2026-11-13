@@ -33,9 +33,7 @@ import {
   StructureTraversalResult,
 } from "@facetx/suite-base/components/MessagePathSyntax/types";
 import { useStructuredItemsByPath } from "@facetx/suite-base/components/MessagePathSyntax/useStructureItemsByPath";
-import useGlobalVariables, {
-  GlobalVariables,
-} from "@facetx/suite-base/hooks/useGlobalVariables";
+import useGlobalVariables, { GlobalVariables } from "@facetx/suite-base/hooks/useGlobalVariables";
 
 import {
   traverseStructure,

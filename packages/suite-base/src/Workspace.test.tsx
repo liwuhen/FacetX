@@ -13,10 +13,7 @@ import {
 import Sidebars from "@facetx/suite-base/components/Sidebars";
 import { SidebarItem } from "@facetx/suite-base/components/Sidebars/types";
 import { useAppContext } from "@facetx/suite-base/context/AppContext";
-import {
-  useCurrentUser,
-  useCurrentUserType,
-} from "@facetx/suite-base/context/CurrentUserContext";
+import { useCurrentUser, useCurrentUserType } from "@facetx/suite-base/context/CurrentUserContext";
 import { useEvents } from "@facetx/suite-base/context/EventsContext";
 import { useLayoutManager } from "@facetx/suite-base/context/LayoutManagerContext";
 import { usePlayerSelection } from "@facetx/suite-base/context/PlayerSelectionContext";

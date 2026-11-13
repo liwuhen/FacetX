@@ -11,8 +11,6 @@ describe("encodeRendererArg & decodeRendererArg", () => {
   it("encodes and decodes", () => {
     const encoded = encodeRendererArg("deepLinks", ["facetx://example"]);
     expect(encoded).toEqual("--deepLinks=WyJmYWNldHg6Ly9leGFtcGxlIl0=");
-    expect(decodeRendererArg("deepLinks", ["arg1", encoded, "arg2"])).toEqual([
-      "facetx://example",
-    ]);
+    expect(decodeRendererArg("deepLinks", ["arg1", encoded, "arg2"])).toEqual(["facetx://example"]);
   });
 });

@@ -7,11 +7,7 @@
 
 import path from "path";
 
-import {
-  ConfigParams,
-  devServerConfig,
-  mainConfig,
-} from "@facetx/suite-web/src/webpackConfigs";
+import { ConfigParams, devServerConfig, mainConfig } from "@facetx/suite-web/src/webpackConfigs";
 
 import packageJson from "../package.json";
 

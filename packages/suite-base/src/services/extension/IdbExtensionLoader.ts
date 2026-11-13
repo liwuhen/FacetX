@@ -6,10 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Log from "@facetx/log";
-import {
-  IExtensionStorage,
-  StoredExtension,
-} from "@facetx/suite-base/services/IExtensionStorage";
+import { IExtensionStorage, StoredExtension } from "@facetx/suite-base/services/IExtensionStorage";
 import {
   IExtensionLoader,
   InstallExtensionProps,

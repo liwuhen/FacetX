@@ -8,6 +8,7 @@
 import { MarkOptional } from "ts-essentials";
 
 import { LayoutData } from "@facetx/suite-base/context/CurrentLayoutContext/actions";
+
 import { migratePanelsState as migrateLayoutState } from "../migrateLayout";
 import { migrateLegacyToNewImagePanels } from "./migrateLegacyToNewImagePanels";
 

@@ -9,10 +9,7 @@ import { useCallback, useState } from "react";
 
 import Stack from "@facetx/suite-base/components/Stack";
 import { svgPathsDisabled, svgPathsEnabled } from "@facetx/suite-base/panels/Teleop/constants";
-import {
-  DirectionalPadAction,
-  DirectionalPadProps,
-} from "@facetx/suite-base/panels/Teleop/types";
+import { DirectionalPadAction, DirectionalPadProps } from "@facetx/suite-base/panels/Teleop/types";
 
 import { useStyles } from "./DirectionalPad.style";
 

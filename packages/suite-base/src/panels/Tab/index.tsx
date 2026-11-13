@@ -23,10 +23,7 @@ import Panel from "@facetx/suite-base/components/Panel";
 import { usePanelContext } from "@facetx/suite-base/components/PanelContext";
 import { UnconnectedPanelLayout } from "@facetx/suite-base/components/PanelLayout";
 import Stack from "@facetx/suite-base/components/Stack";
-import {
-  DraggingTabPanelState,
-  TabDndContext,
-} from "@facetx/suite-base/panels/Tab/TabDndContext";
+import { DraggingTabPanelState, TabDndContext } from "@facetx/suite-base/panels/Tab/TabDndContext";
 import { TabbedToolbar } from "@facetx/suite-base/panels/Tab/TabbedToolbar";
 import { TabPanelConfig as Config } from "@facetx/suite-base/types/layouts";
 import { SaveConfig } from "@facetx/suite-base/types/panels";

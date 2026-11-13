@@ -11,9 +11,7 @@ import { useMemo, useRef, useState, ReactElement, useEffect } from "react";
 
 import Stack from "@facetx/suite-base/components/Stack";
 import { useAnalytics } from "@facetx/suite-base/context/AnalyticsContext";
-import useGlobalVariables, {
-  GlobalVariables,
-} from "@facetx/suite-base/hooks/useGlobalVariables";
+import useGlobalVariables, { GlobalVariables } from "@facetx/suite-base/hooks/useGlobalVariables";
 import { AppEvent } from "@facetx/suite-base/services/IAnalytics";
 
 import Variable from "./Variable";

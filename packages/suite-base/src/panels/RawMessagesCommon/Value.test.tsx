@@ -25,12 +25,9 @@ jest.mock("@facetx/suite-base/panels/Plot/utils/openSiblingPlotPanel", () => ({
   openSiblingPlotPanel: jest.fn(),
 }));
 
-jest.mock(
-  "@facetx/suite-base/panels/StateTransitions/openSiblingStateTransitionsPanel",
-  () => ({
-    openSiblingStateTransitionsPanel: jest.fn(),
-  }),
-);
+jest.mock("@facetx/suite-base/panels/StateTransitions/openSiblingStateTransitionsPanel", () => ({
+  openSiblingStateTransitionsPanel: jest.fn(),
+}));
 
 jest.mock("./HighlightedValue", () => ({
   __esModule: true,

@@ -7,10 +7,7 @@ import { act, renderHook } from "@testing-library/react";
 
 import { useLayoutManager } from "@facetx/suite-base/context/LayoutManagerContext";
 import { IDataSourceFactory } from "@facetx/suite-base/context/PlayerSelectionContext";
-import {
-  FILE_ACCEPT_TYPE,
-  FILE_JSON_TYPE,
-} from "@facetx/suite-base/context/Workspace/constants";
+import { FILE_ACCEPT_TYPE, FILE_JSON_TYPE } from "@facetx/suite-base/context/Workspace/constants";
 import { useHandleFiles } from "@facetx/suite-base/hooks/useHandleFiles";
 import { useInstallingExtensionsState } from "@facetx/suite-base/hooks/useInstallingExtensionsState";
 import { useLayoutTransfer } from "@facetx/suite-base/hooks/useLayoutTransfer";

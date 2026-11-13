@@ -7,10 +7,7 @@
 
 import type { MessagePathPart, MessagePath, MessagePathName } from "@facetx/message-path";
 import type { Immutable } from "@facetx/suite";
-import type {
-  SubscribePayload,
-  SubscriptionPreloadType,
-} from "@facetx/suite-base/players/types";
+import type { SubscribePayload, SubscriptionPreloadType } from "@facetx/suite-base/players/types";
 
 const typeIsName = (part: Immutable<MessagePathPart>) => part.type === "name";
 

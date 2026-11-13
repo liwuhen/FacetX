@@ -28,10 +28,7 @@ import {
   useSelectedPanels,
 } from "@facetx/suite-base/context/CurrentLayoutContext";
 import { usePanelCatalog } from "@facetx/suite-base/context/PanelCatalogContext";
-import {
-  PanelStateStore,
-  usePanelStateStore,
-} from "@facetx/suite-base/context/PanelStateContext";
+import { PanelStateStore, usePanelStateStore } from "@facetx/suite-base/context/PanelStateContext";
 import { useAppConfigurationValue } from "@facetx/suite-base/hooks";
 import { PanelConfig } from "@facetx/suite-base/types/panels";
 import { TAB_PANEL_TYPE } from "@facetx/suite-base/util/constants";

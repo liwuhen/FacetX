@@ -15,10 +15,7 @@
 //   You may not use this file except in compliance with the License.
 
 import { DiagnosticInfo } from "@facetx/suite-base/panels/DiagnosticStatus/types";
-import {
-  LEVELS,
-  MAX_STRING_LENGTH,
-} from "@facetx/suite-base/panels/DiagnosticSummary/constants";
+import { LEVELS, MAX_STRING_LENGTH } from "@facetx/suite-base/panels/DiagnosticSummary/constants";
 import { DiagnosticsById } from "@facetx/suite-base/panels/DiagnosticSummary/types";
 
 import {

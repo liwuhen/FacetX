@@ -12,13 +12,7 @@ import * as THREE from "three";
 import { v4 as uuidv4 } from "uuid";
 
 import { filterMap } from "@facetx/den/collection";
-import {
-  UrdfGeometryMesh,
-  UrdfRobot,
-  UrdfVisual,
-  parseRobot,
-  UrdfJoint,
-} from "@facetx/den/urdf";
+import { UrdfGeometryMesh, UrdfRobot, UrdfVisual, parseRobot, UrdfJoint } from "@facetx/den/urdf";
 import Logger from "@facetx/log";
 import {
   SettingsTreeAction,

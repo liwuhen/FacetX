@@ -12,10 +12,7 @@ import {
 import { UseStateTransitionsData } from "@facetx/suite-base/panels/StateTransitions/hooks/types";
 import { messagesToDataset } from "@facetx/suite-base/panels/StateTransitions/messagesToDataset";
 import { datasetContainsArray } from "@facetx/suite-base/panels/StateTransitions/shared";
-import {
-  PathState,
-  StateTransitionPath,
-} from "@facetx/suite-base/panels/StateTransitions/types";
+import { PathState, StateTransitionPath } from "@facetx/suite-base/panels/StateTransitions/types";
 import { Time } from "@lichtblick/rostime";
 
 function useStateTransitionsData(

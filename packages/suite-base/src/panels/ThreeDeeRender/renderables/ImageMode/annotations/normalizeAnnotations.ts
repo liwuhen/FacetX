@@ -9,11 +9,7 @@ import { ImageAnnotations, PointsAnnotationType } from "@foxglove/schemas";
 
 import { filterMap } from "@facetx/den/collection";
 import { RosObject } from "@facetx/suite-base/players/types";
-import {
-  ImageMarker,
-  ImageMarkerArray,
-  ImageMarkerType,
-} from "@facetx/suite-base/types/Messages";
+import { ImageMarker, ImageMarkerArray, ImageMarkerType } from "@facetx/suite-base/types/Messages";
 import { mightActuallyBePartial } from "@facetx/suite-base/util/mightActuallyBePartial";
 import { Time, fromNanoSec } from "@lichtblick/rostime";
 

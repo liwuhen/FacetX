@@ -9,13 +9,7 @@ import { StoryObj } from "@storybook/react-webpack5";
 import { ReactElement, useLayoutEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 
-import {
-  Immutable,
-  PanelExtensionContext,
-  ParameterValue,
-  RenderState,
-  Time,
-} from "@facetx/suite";
+import { Immutable, PanelExtensionContext, ParameterValue, RenderState, Time } from "@facetx/suite";
 import ErrorBoundary from "@facetx/suite-base/components/ErrorBoundary";
 import MockPanelContextProvider from "@facetx/suite-base/components/MockPanelContextProvider";
 import PanelSetup from "@facetx/suite-base/stories/PanelSetup";

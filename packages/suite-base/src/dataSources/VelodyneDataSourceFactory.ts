@@ -19,9 +19,7 @@ class VelodyneDataSourceFactory implements IDataSourceFactory {
   public iconName: IDataSourceFactory["iconName"] = "GenericScan";
   public description =
     "Connect directly to Velodyne Lidar hardware to inspect incoming sensor data.";
-  public docsLinks = [
-    { url: "https://github.com/ros-drivers/velodyne" },
-  ];
+  public docsLinks = [{ url: "https://github.com/ros-drivers/velodyne" }];
 
   public formConfig = {
     fields: [{ id: "port", label: "UDP Port", defaultValue: "2369" }],
