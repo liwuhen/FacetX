@@ -1,4 +1,5 @@
 {
+  "trailingSlash": false,
   "github": {
     "silent": true
   },
@@ -14,6 +15,5 @@
         { "key": "Cross-Origin-Embedder-Policy", "value": "credentialless" }
       ]
     }
-  ],
-  "trailingSlash": false
+  ]
 }

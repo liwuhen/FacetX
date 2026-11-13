@@ -1,5 +1,9 @@
 {
   "servers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
     "playwright": {
       "command": "npx",
       "args": [
@@ -12,10 +16,6 @@
         "--caps",
         "testing"
       ]
-    },
-    "github": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/"
     }
   }
 }

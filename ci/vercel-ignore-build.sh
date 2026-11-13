@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Since vercel does not any any way to disable the preview build feature, we use the ignore build
-# step feature to only deploy the main branch.
+# Vercel uses this hook to decide whether to build. An exit status of 1 allows the build to run.
 # https://vercel.com/support/articles/how-do-i-use-the-ignored-build-step-field-on-vercel#with-environment-variables
 
 # To deploy only on the main branch, remove this line and uncomment the code below.

@@ -1,1 +1,2 @@
+# Normalize FacetX text files to LF in Git and in checkouts
 * text=auto eol=lf

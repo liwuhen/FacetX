@@ -5,8 +5,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-// This file is not used in the app, but exists to test that our eslint config catches the code we want it to catch.
-// Because we run eslint with --report-unused-disable-directives, any unused comments will be errors.
+// Keep one fixture for each rule exercised here. ESLint reports an unused disable directive
+// if a configuration change stops the rule from flagging its fixture.
 
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 

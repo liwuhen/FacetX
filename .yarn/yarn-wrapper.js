@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// This script does some pre-configure checks and environment setup for yarn runs
+// Start the Corepack-managed Yarn with the heap size used by FacetX builds.
 
 const path = require("path");
 

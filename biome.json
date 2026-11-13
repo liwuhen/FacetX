@@ -18,18 +18,18 @@
       "!packages/**/wasm/*.js"
     ]
   },
+  "linter": {
+    "enabled": false
+  },
+  "assist": {
+    "enabled": false
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
     "lineWidth": 100,
     "lineEnding": "lf"
-  },
-  "linter": {
-    "enabled": false
-  },
-  "assist": {
-    "enabled": false
   },
   "javascript": {
     "formatter": {

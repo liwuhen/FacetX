@@ -1,3 +1,4 @@
+# Local and generated files excluded from the FacetX build context
 *.log
 *.tsbuildinfo
 .DS_Store

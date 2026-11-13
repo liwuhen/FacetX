@@ -1,9 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2026 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-// We keep some slow lint rules here, and only run them in CI.
-// Please only add rules here if they are unlikely to be encountered
-// during normal development.
+// Extend the shared FacetX configuration with checks reserved for CI.
 
 import baseConfig from "./eslint.config.mjs";
 
