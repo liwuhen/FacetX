@@ -16,7 +16,6 @@ import {
 import { Avatar, IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import tc from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
 import { AppSetting } from "@facetx/suite-base/AppSetting";
@@ -62,17 +61,17 @@ const useStyles = makeStyles<{ debugDragRegion?: boolean }, "avatar">()(
       logo: {
         padding: theme.spacing(0.75, 0.5),
         fontSize: "2rem",
-        color: theme.palette.appBar.primary,
+        color: theme.palette.text.secondary,
         borderRadius: 0,
 
         "svg:not(.MuiSvgIcon-root)": {
           fontSize: "1em",
         },
         "&:hover": {
-          backgroundColor: tc(theme.palette.appBar.text).setAlpha(0.08).toRgbString(),
+          backgroundColor: theme.palette.action.hover,
         },
         "&.Mui-selected": {
-          backgroundColor: theme.palette.appBar.primary,
+          backgroundColor: theme.palette.appBar.selected,
           color: theme.palette.appBar.text,
         },
         "&.Mui-disabled": {
@@ -114,7 +113,7 @@ const useStyles = makeStyles<{ debugDragRegion?: boolean }, "avatar">()(
       },
       keyEquivalent: {
         fontFamily: customTypography.fontMonospace,
-        background: tc(theme.palette.appBar.text).darken(45).toString(),
+        background: theme.palette.appBar.selected,
         padding: theme.spacing(0, 0.5),
         aspectRatio: 1,
         borderRadius: theme.shape.borderRadius,
@@ -125,7 +124,7 @@ const useStyles = makeStyles<{ debugDragRegion?: boolean }, "avatar">()(
       },
       avatar: {
         color: theme.palette.appBar.text,
-        backgroundColor: tc(theme.palette.appBar.main).lighten().toString(),
+        backgroundColor: theme.palette.background.input,
         height: theme.spacing(3.5),
         width: theme.spacing(3.5),
       },
@@ -134,17 +133,17 @@ const useStyles = makeStyles<{ debugDragRegion?: boolean }, "avatar">()(
         borderRadius: 0,
 
         "&:hover": {
-          backgroundColor: tc(theme.palette.appBar.text).setAlpha(0.08).toString(),
+          backgroundColor: theme.palette.action.hover,
 
           [`.${classes.avatar}`]: {
-            backgroundColor: tc(theme.palette.appBar.main).lighten(20).toString(),
+            backgroundColor: theme.palette.appBar.selected,
           },
         },
         "&.Mui-selected": {
-          backgroundColor: theme.palette.appBar.primary,
+          backgroundColor: theme.palette.appBar.selected,
 
           [`.${classes.avatar}`]: {
-            backgroundColor: tc(theme.palette.appBar.main).setAlpha(0.3).toString(),
+            backgroundColor: theme.palette.appBar.main,
           },
         },
       },

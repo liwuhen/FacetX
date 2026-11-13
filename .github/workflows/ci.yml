@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [develop, main]
+    branches: [main]
   pull_request:
 
 env:
@@ -10,14 +10,12 @@ env:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     # Run each command in parallel with the same setup steps.
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
         config:
           # Specify names so that the GitHub branch protection settings for
           # required checks don't need to change if we ever change the commands used.
@@ -40,17 +38,10 @@ jobs:
             command: yarn run web:build:prod
           - name: desktop
             command: yarn run desktop:build:prod
-          - name: build benchmark
-            command: yarn run benchmark:build:prod
           - name: test
             command: yarn run test --maxWorkers=100%
-        include:
-          - os: windows-latest
-            config:
-              name: packages
-              command: echo complete
 
-    name: ${{ matrix.config.name }} (${{ matrix.os }})
+    name: ${{ matrix.config.name }} (ubuntu-latest)
 
     steps:
       - uses: actions/checkout@v7
@@ -77,7 +68,6 @@ jobs:
     runs-on: ubuntu-latest
 
     # Run smoke tests in parallel across 2 shards
-    # Full regression runs separately in e2e-regression.yml (nightly + develop/main)
     strategy:
       fail-fast: false
       matrix:
@@ -135,9 +125,9 @@ jobs:
           retention-days: 1
 
   e2e-web:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
-    name: e2e-web (ubuntu-latest)
+    name: e2e-web (ubuntu-24.04)
 
     env:
       TZ: Europe/Lisbon
@@ -162,7 +152,7 @@ jobs:
       - run: yarn install --immutable
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        run: yarn playwright install --with-deps chromium
 
       - name: Run E2E Web smoke tests
         run: yarn test:e2e:web:smoke:ci
@@ -225,10 +215,10 @@ jobs:
           ls -la all-blob-reports-desktop/ || echo "No desktop blob reports found"
 
           # Merge blob reports into JSON format
-          npx playwright merge-reports --reporter json ./all-blob-reports-desktop > e2e/reports/desktop/results.json
+          yarn playwright merge-reports --reporter json ./all-blob-reports-desktop > e2e/reports/desktop/results.json
 
           # Also generate HTML report
-          npx playwright merge-reports --reporter html ./all-blob-reports-desktop
+          yarn playwright merge-reports --reporter html ./all-blob-reports-desktop
 
           echo "Merged desktop report size:"
           ls -lh e2e/reports/desktop/results.json

@@ -51,12 +51,12 @@ yarn test:e2e:desktop:debug uninstall-extens
 
 ## 🏷️ Test Categories
 
-All E2E tests are labeled with one of two tags that control which CI pipeline executes them:
+E2E tags mark the scenarios covered by the smoke and full test runs.
 
 | Tag           | When it runs                                    | Criteria                                                                                        |
 | ------------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `@smoke`      | Every PR / every push                           | Critical user-path tests: opening files, basic player controls, primary layout and menu actions |
-| `@regression` | Nightly (02:00 UTC) + `develop` / `main` merges | Edge cases, keyboard shortcuts, extended scenarios, slower workflows (extensions, remote data)  |
+| `@smoke`      | Pull requests and pushes to `main`              | Critical user-path tests: opening files, basic player controls, primary layout and menu actions |
+| `@regression` | Full test runs started locally                  | Edge cases, keyboard shortcuts, extended scenarios, slower workflows (extensions, remote data)  |
 
 ### Run by category locally
 

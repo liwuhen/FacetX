@@ -16,6 +16,10 @@ export const MuiButton: OverrideComponentReturn<"MuiButton"> = {
   styleOverrides: {
     root: {
       transition: "none",
+      "&:focus-visible": {
+        outline: "1px solid currentColor",
+        outlineOffset: -2,
+      },
     },
     containedInherit: ({ theme }) => ({
       backgroundColor: theme.palette.action.focus,

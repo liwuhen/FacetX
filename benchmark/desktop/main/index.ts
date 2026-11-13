@@ -14,8 +14,8 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 1280,
     height: 800,
-    // Always shown, even in CI: CI runs this under Xvfb (a real, if virtual, display - see
-    // e2e-benchmark.yml), so there's no need to hide the window there. A hidden (`show: false`)
+    // A virtual display such as Xvfb can keep this window visible in headless environments.
+    // A hidden (`show: false`)
     // BrowserWindow never gets a compositor/paint pipeline at all, so `requestAnimationFrame`
     // never fires for it - which hangs the Plot panel's pauseFrame/resumeFrame handshake
     // (TimeBasedChart's `onFinishRender`) forever, since it waits on a rAF callback that will

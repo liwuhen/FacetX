@@ -34,12 +34,10 @@ Determine the contributor's git context to ensure correct branching and PR mecha
 1. Run `git remote get-url origin` to detect whether the workspace is a **fork** or **direct clone**.
    - URL contains `liwuhen/FacetX` → **direct clone** (core team).
    - Otherwise → **fork** (community contributor).
-2. Ensure the working branch follows the [branching strategy](../instructions/contributing.instructions.md#branch-naming):
-   - Features/bugfixes: `feature/` or `bugfix/` prefix, targeting `develop`.
-   - Releases/hotfixes (core team only): `release/major/`, `release/minor/`, or `hotfix/` prefix, targeting `main`.
-3. For fork contributors, ensure the branch is rebased on upstream `develop`:
+2. Follow the [branch naming guidance](../instructions/contributing.instructions.md#branch-naming) and target `main`.
+3. For fork contributors, rebase on upstream `main`:
    ```sh
-   git fetch upstream && git rebase upstream/develop
+   git fetch upstream && git rebase upstream/main
    ```
 4. **Optional — parallel work:** If this task runs alongside other independent SDD tasks, set it up in a dedicated git worktree first (see [facetx-setup-worktree.prompt.md](./facetx-setup-worktree.prompt.md)) and run the rest of this workflow inside that worktree. This keeps each task on its own branch and checkout.
 
