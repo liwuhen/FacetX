@@ -57,12 +57,12 @@ Examples: `loop-playback.desktop.spec.ts`, `sync-playback.web.spec.ts`
 
 ## Test Tagging
 
-Every test **must** carry exactly one tag. This controls which CI pipeline executes it.
+Every test **must** carry exactly one tag. The main CI workflow runs the smoke tests.
 
-| Tag | CI trigger | Criteria |
+| Tag | When it runs | Criteria |
 |---|---|---|
-| `@smoke` | Every PR push | Primary happy-path a user encounters immediately: opening files, basic player controls (play/pause), primary layout actions (create, open), and main menu navigation. Must be fast (<30 s). |
-| `@regression` | Nightly (02:00 UTC) + push to `develop` / `main` | Edge cases, secondary interactions (keyboard shortcuts, speed variants), extended scenarios (timestamp switching, topic filtering), or slower workflows (extensions, remote data, WebSocket). |
+| `@smoke` | Pull requests and pushes to `main` | Primary happy-path a user encounters immediately: opening files, basic player controls (play/pause), primary layout actions (create, open), and main menu navigation. Must be fast (<30 s). |
+| `@regression` | Full test runs started locally | Edge cases, secondary interactions (keyboard shortcuts, speed variants), extended scenarios (timestamp switching, topic filtering), or slower workflows (extensions, remote data, WebSocket). |
 
 ### Syntax
 

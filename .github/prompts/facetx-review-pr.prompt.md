@@ -17,7 +17,7 @@ It has two independent phases — run them separately or together depending on w
 
 ### CodeRabbit integration
 
-CodeRabbit runs automatically on every non-draft PR targeting `develop` or `main`.
+CodeRabbit runs automatically on every non-draft PR targeting `main`.
 
 Before starting a manual review:
 1. Check whether CodeRabbit has already posted its review.

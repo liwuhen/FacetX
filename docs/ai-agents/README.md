@@ -106,7 +106,6 @@ Located in `.github/skills/<name>/SKILL.md`. Each file uses YAML frontmatter wit
 | `player-internals`          | IterablePlayer state machine internals, tick loop, and data source iteration patterns.                                                                                                  |
 | `plot-internals`            | Chart.js integration for the Plot panel: Worker-based rendering, dataset management, downsampling strategies, scale handling, and interaction patterns.                                 |
 | `remote-caching`            | HTTP-layer caching for remote file access: CachedFilelike, VirtualLRUBuffer, connection management algorithm, BrowserHttpReader, FetchReader streaming, and RequestQueue concurrency.   |
-| `release-process`           | Release pipeline knowledge: the stable release flow (release.yml -> post-release.yml -> release-sync.yml), the manual pre-release/RC flow (prerelease.yml), branch-naming to version-bump mapping, and NPM/GHCR publishing. |
 | `theme`                     | Theme system: createMuiTheme factory, dark/light palette tokens, typography scale, ThemeProvider application, and tss-react/mui styling.                                                |
 | `unit-testing`              | Unit testing patterns, mock builder usage, and test data construction strategies.                                                                                                       |
 | `web-workers`               | Web Worker patterns: Comlink integration, ComlinkWrap lifecycle, transfer handlers, OffscreenCanvas, SharedWorker isolation, and testing utilities.                                     |
@@ -185,7 +184,6 @@ Located in `.github/prompts/`. Prompt files provide reusable workflows for multi
 | `lb-feature-adopt.prompt.md` | Evaluate and adopt a specific upstream feature with an explicit decision matrix.                                        |
 | `lb-open-pr.prompt.md`                      | Create a complete PR description with testing evidence and risk notes. Uses `github` MCP server.                        |
 | `lb-review-pr.prompt.md`                    | Two-phase PR review: structured analysis integrating CodeRabbit, then implement CodeRabbit AI agent prompt suggestions. |
-| `lb-release.prompt.md`                  | Guided runbook to cut a release (major/minor/hotfix) or manual RC/pre-release, and verify the automated publish pipeline (release.yml/post-release.yml/release-sync.yml). |
 
 ---
 

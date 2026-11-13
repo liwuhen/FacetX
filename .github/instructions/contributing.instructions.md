@@ -8,15 +8,8 @@ These rules apply to all TypeScript and TSX files.
 
 ## Branch naming
 
-Branch names must use a prefix that matches the target branch (enforced in CI by
-[enforce-branch-naming.yml](../workflows/enforce-branch-naming.yml)):
-
-| Target branch | Allowed source prefixes |
-|---------------|-------------------------|
-| `main` | `release/`, `hotfix/` |
-| `develop` | `feature/`, `bugfix/`, `dependabot/`, `sync/` |
-
-Use a short, descriptive, kebab-case name after the prefix (e.g. `feature/improve-ai-experience`).
+Target `main` for pull requests. Use a short, descriptive, kebab-case branch name such as
+`feature/improve-ai-experience` or `codex/fix-mcap-playback`.
 
 ## Component Structure
 
