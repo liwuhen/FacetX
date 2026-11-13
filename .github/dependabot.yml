@@ -6,7 +6,7 @@ updates:
       # We found daily updates to be too noisy. They consumed too much CI time and engineer review
       # time relative to the benefit of being on such a bleeding edge.
       interval: monthly
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 0
     labels: [dependabot]
 
     # Define groups of dependencies to be updated together
@@ -52,4 +52,5 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    open-pull-requests-limit: 0
     labels: [dependabot]
