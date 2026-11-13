@@ -1,0 +1,28 @@
+{
+  "name": "@facetx/suite",
+  "version": "1.30.0",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liwuhen/FacetX/tree/main/packages/suite"
+  },
+  "author": {
+    "name": "FacetX",
+    "email": "43287097+liwuhen@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/liwuhen/FacetX",
+  "main": "./src/index.ts",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "prepack": "tsc -b tsconfig.json"
+  },
+  "dependencies": {
+    "@lichtblick/message-definition": "1.0.0"
+  },
+  "devDependencies": {
+    "@lichtblick/tsconfig": "1.1.2",
+    "typescript": "6.0.3"
+  }
+}

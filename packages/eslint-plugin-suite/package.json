@@ -1,0 +1,23 @@
+{
+  "name": "@facetx/eslint-plugin-suite",
+  "license": "MPL-2.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liwuhen/FacetX.git"
+  },
+  "author": {
+    "name": "FacetX",
+    "email": "43287097+liwuhen@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/liwuhen/FacetX",
+  "main": "./index.js",
+  "files": [
+    "src"
+  ],
+  "devDependencies": {
+    "@lichtblick/tsconfig": "1.1.2",
+    "@typescript-eslint/rule-tester": "8.62.1",
+    "@typescript-eslint/utils": "8.62.1"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "configById": {
+    "Image!patrol": {
+      "facetxPanelTitle": "Forward camera",
+      "imageMode": { "imageTopic": "/patrol/camera" }
+    },
+    "3D!patrol": {
+      "facetxPanelTitle": "Warehouse floor",
+      "followTf": "warehouse",
+      "followMode": "follow-none",
+      "topics": { "/patrol/scene": { "visible": true } }
+    },
+    "RawMessages!patrol": {
+      "facetxPanelTitle": "Patrol telemetry",
+      "topicPath": "/patrol/status"
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": { "speed": 1 },
+  "layout": {
+    "first": "Image!patrol",
+    "second": {
+      "first": "3D!patrol",
+      "second": "RawMessages!patrol",
+      "direction": "column",
+      "splitPercentage": 65
+    },
+    "direction": "row",
+    "splitPercentage": 58
+  }
+}

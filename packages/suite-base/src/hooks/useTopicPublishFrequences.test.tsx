@@ -1,0 +1,94 @@
+/** @jest-environment jsdom */
+
+// SPDX-FileCopyrightText: Copyright (C) 2023-2026 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
+// SPDX-License-Identifier: MPL-2.0
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/
+
+import { renderHook } from "@testing-library/react";
+
+import MockMessagePipelineProvider from "@facetx/suite-base/components/MessagePipeline/MockMessagePipelineProvider";
+import { useTopicPublishFrequencies } from "@facetx/suite-base/hooks/useTopicPublishFrequences";
+import { PLAYER_CAPABILITIES } from "@facetx/suite-base/players/constants";
+import { PlayerState } from "@facetx/suite-base/players/types";
+
+describe("useTopicPublishFrequencies", () => {
+  it("calculates frequences for a static source", () => {
+    const activeData: Partial<PlayerState["activeData"]> = {
+      currentTime: { sec: 2, nsec: 0 },
+      endTime: { sec: 10, nsec: 0 },
+      startTime: { sec: 0, nsec: 0 },
+      topicStats: new Map([
+        [
+          "topic_a",
+          {
+            numMessages: 10,
+            firstMessageTime: { sec: 1, nsec: 0 },
+            lastMessageTime: { sec: 5, nsec: 0 },
+          },
+        ],
+        [
+          "topic_b",
+          {
+            numMessages: 20,
+            firstMessageTime: { sec: 2, nsec: 0 },
+            lastMessageTime: { sec: 7, nsec: 0 },
+          },
+        ],
+      ]),
+    };
+
+    const { result } = renderHook(useTopicPublishFrequencies, {
+      wrapper: ({ children }) => (
+        <MockMessagePipelineProvider
+          activeData={activeData}
+          capabilities={[PLAYER_CAPABILITIES.playbackControl]}
+        >
+          {children}
+        </MockMessagePipelineProvider>
+      ),
+    });
+
+    expect(result.current).toStrictEqual({ topic_a: 2.25, topic_b: 3.8 });
+  });
+
+  it("updates frequences for a live source", () => {
+    const now = jest.spyOn(Date, "now").mockReturnValue(2000);
+    let activeData: Partial<PlayerState["activeData"]> = {
+      currentTime: { sec: 2, nsec: 0 },
+      endTime: { sec: 10, nsec: 0 },
+      startTime: { sec: 0, nsec: 0 },
+      topicStats: new Map([
+        ["topic_a", { numMessages: 10 }],
+        ["topic_b", { numMessages: 20 }],
+      ]),
+    };
+
+    const { result, rerender } = renderHook(useTopicPublishFrequencies, {
+      wrapper: ({ children }) => (
+        <MockMessagePipelineProvider activeData={activeData}>
+          {children}
+        </MockMessagePipelineProvider>
+      ),
+    });
+
+    expect(result.current).toStrictEqual({});
+
+    activeData = {
+      currentTime: { sec: 3, nsec: 0 },
+      endTime: { sec: 10, nsec: 0 },
+      startTime: { sec: 0, nsec: 0 },
+      topicStats: new Map([
+        ["topic_a", { numMessages: 20 }],
+        ["topic_b", { numMessages: 40 }],
+      ]),
+    };
+    now.mockReturnValue(3000);
+    rerender();
+
+    now.mockRestore();
+    expect(result.current["topic_a"]).toBeGreaterThan(0);
+    expect(result.current["topic_b"]).toBeGreaterThan(0);
+  });
+});

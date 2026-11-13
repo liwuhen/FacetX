@@ -1,0 +1,26 @@
+{
+  "name": "@facetx/den",
+  "description": "Incubation area for code that may be released under future @facetx packages",
+  "license": "MPL-2.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liwuhen/FacetX.git"
+  },
+  "author": {
+    "name": "FacetX",
+    "email": "43287097+liwuhen@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/liwuhen/FacetX",
+  "dependencies": {
+    "@lichtblick/comlink": "1.0.3",
+    "async-mutex": "0.5.0",
+    "eventemitter3": "5.0.1",
+    "xacro-parser": "0.3.11"
+  },
+  "devDependencies": {
+    "@facetx/suite": "workspace:*",
+    "@lichtblick/tsconfig": "1.1.2",
+    "@types/dom-webcodecs": "0.1.14"
+  }
+}

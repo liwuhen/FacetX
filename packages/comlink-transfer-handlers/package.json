@@ -1,0 +1,27 @@
+{
+  "name": "@facetx/comlink-transfer-handlers",
+  "license": "MPL-2.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liwuhen/FacetX.git"
+  },
+  "author": {
+    "name": "FacetX",
+    "email": "43287097+liwuhen@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/liwuhen/FacetX",
+  "main": "./src/index.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "prepack": "tsc -b"
+  },
+  "devDependencies": {
+    "@lichtblick/comlink": "1.0.3",
+    "@lichtblick/tsconfig": "1.1.2",
+    "typescript": "6.0.3"
+  }
+}

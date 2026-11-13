@@ -1,0 +1,31 @@
+{
+  "name": "@facetx/message-path",
+  "license": "MPL-2.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liwuhen/FacetX.git"
+  },
+  "author": {
+    "name": "FacetX",
+    "email": "43287097+liwuhen@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/liwuhen/FacetX",
+  "main": "./src/index.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "prepack": "tsc -b"
+  },
+  "dependencies": {
+    "babel-jest": "30.5.2",
+    "nearley": "2.20.1"
+  },
+  "devDependencies": {
+    "@lichtblick/tsconfig": "1.1.2",
+    "@types/nearley": "2.11.5",
+    "typescript": "6.0.3"
+  }
+}
