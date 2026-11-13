@@ -135,7 +135,7 @@
     "@babel/preset-env": "7.29.7",
     "@babel/preset-react": "7.29.7",
     "@babel/preset-typescript": "7.29.7",
-    "@biomejs/biome": "2.5.2",
+    "@biomejs/biome": "2.6.6",
     "@eslint/compat": "2.1.0",
     "@facetx/eslint-plugin-suite": "workspace:*",
     "@lichtblick/eslint-plugin": "2.0.7",
