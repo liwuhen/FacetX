@@ -107,6 +107,18 @@ describe("H264", () => {
     });
   });
 
+  it("preserves the SPS compatibility byte in the decoder codec string", () => {
+    const nalu = new Uint8Array([
+      0x00, 0x00, 0x00, 0x01, 0x67, 0x4d, 0x0c, 0x33, 0x96, 0x54, 0x01, 0xe0, 0x02, 0x1f, 0x20,
+    ]);
+
+    expect(H264.ParseDecoderConfig(nalu)).toEqual({
+      codec: "avc1.4D0C33",
+      codedWidth: 3840,
+      codedHeight: 2160,
+    });
+  });
+
   it("ParseDecoderConfig with spsData undefined", () => {
     const NALU = new Uint8Array([0x00]);
     const decoderConfig = H264.ParseDecoderConfig(NALU);
