@@ -17,6 +17,7 @@ import type {
 } from "webpack-dev-server";
 
 import type { WebpackArgv } from "@facetx/suite-base/WebpackArgv";
+import { APP_CONFIGURATION_STORAGE_PREFIX, AppSetting } from "@facetx/suite-base/src/AppSetting";
 import { makeConfig } from "@facetx/suite-base/webpack";
 import * as palette from "@facetx/theme/src/palette";
 
@@ -125,6 +126,9 @@ export const mainConfig =
       allowUnusedVariables,
       version: params.version,
     });
+    const workspace = process.env.DEV_WORKSPACE;
+    const storageKey = `${workspace ? `${workspace}.` : ""}${APP_CONFIGURATION_STORAGE_PREFIX}${AppSetting.COLOR_SCHEME}`;
+    const inlineStorageKey = JSON.stringify(storageKey).replaceAll("<", "\\u003c");
 
     const config: Configuration = {
       name: "main",
@@ -168,20 +172,44 @@ export const mainConfig =
       <meta charset="utf-8">
       <meta name="apple-mobile-web-app-capable" content="yes">
       ${htmlWebpackPlugin.options.foxgloveExtraHeadTags}
+      <script>
+        {
+          // Apply the saved theme before the app bundle loads. CSS handles the system default.
+          try {
+            const saved = localStorage.getItem(${inlineStorageKey});
+            if (saved !== null) {
+              const preference = JSON.parse(saved);
+              if (preference !== "" && preference !== "system") {
+                document.documentElement.dataset.colorMode = preference === "dark" ? "dark" : "light";
+              }
+            }
+          } catch {
+            // Use the system theme when local storage is unavailable or the value is malformed.
+          }
+        }
+      </script>
       <style type="text/css" id="loading-styles">
         body {
           margin: 0;
         }
-        #root {
-          height: 100vh;
-          background-color: ${palette.light.background?.default};
-          color: ${palette.light.text?.primary};
+        html {
+          --startup-background: ${palette.light.background?.default};
+          --startup-text: ${palette.light.text?.primary};
+        }
+        html[data-color-mode="dark"] {
+          --startup-background: ${palette.dark.background?.default};
+          --startup-text: ${palette.dark.text?.primary};
         }
         @media (prefers-color-scheme: dark) {
-          #root {
-            background-color: ${palette.dark.background?.default}};
-            color: ${palette.dark.text?.primary};
+          html:not([data-color-mode]) {
+            --startup-background: ${palette.dark.background?.default};
+            --startup-text: ${palette.dark.text?.primary};
           }
+        }
+        #root {
+          height: 100vh;
+          background-color: var(--startup-background);
+          color: var(--startup-text);
         }
       </style>
     </head>

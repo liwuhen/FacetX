@@ -6,7 +6,7 @@ export const useStyles = makeStyles()((theme) => ({
   leftNav: {
     boxSizing: "content-box",
     borderRight: `1px solid ${theme.palette.divider}`,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.sidebar,
   },
   tabs: {
     flexGrow: 1,

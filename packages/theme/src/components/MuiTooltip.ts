@@ -5,7 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Fade, alpha } from "@mui/material";
+import { Fade } from "@mui/material";
 
 import { OverrideComponentReturn } from "../types";
 
@@ -16,12 +16,11 @@ export const MuiTooltip: OverrideComponentReturn<"MuiTooltip"> = {
   },
   styleOverrides: {
     arrow: ({ theme }) => ({
-      color: alpha(theme.palette.grey[700], 0.92),
-      backdropFilter: "blur(3px)",
+      color: theme.palette.background.tooltip,
     }),
     tooltip: ({ theme }) => ({
-      backgroundColor: alpha(theme.palette.grey[700], 0.92),
-      backdropFilter: "blur(3px)",
+      backgroundColor: theme.palette.background.tooltip,
+      color: theme.palette.common.white,
       fontWeight: "normal",
       fontSize: theme.typography.caption.fontSize,
     }),

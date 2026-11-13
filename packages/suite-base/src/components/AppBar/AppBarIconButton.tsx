@@ -7,7 +7,6 @@
 
 import { IconButton, IconButtonProps, Tooltip } from "@mui/material";
 import { forwardRef } from "react";
-import tinycolor from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
 const useStyles = makeStyles()((theme) => ({
@@ -23,10 +22,10 @@ const useStyles = makeStyles()((theme) => ({
       fontSize: "1em",
     },
     "&:hover": {
-      backgroundColor: tinycolor(theme.palette.appBar.text).setAlpha(0.08).toRgbString(),
+      backgroundColor: theme.palette.action.hover,
     },
     "&.Mui-selected": {
-      backgroundColor: theme.palette.appBar.primary,
+      backgroundColor: theme.palette.appBar.selected,
     },
     "&.Mui-disabled": {
       color: "currentColor",

@@ -1,14 +1,13 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2026 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { alpha } from "@mui/material/styles";
 import { makeStyles } from "tss-react/mui";
 
 export const useStyles = makeStyles()((theme) => ({
   logo: {
     width: 125,
     height: "auto",
-    color: "#EDF7F5",
+    color: theme.palette.text.primary,
     marginBottom: theme.spacing(3),
   },
   grid: {
@@ -23,17 +22,17 @@ export const useStyles = makeStyles()((theme) => ({
   patrol: {
     minWidth: 0,
     padding: theme.spacing(4),
-    backgroundColor: "#102E36",
-    color: "#EDF7F5",
+    backgroundColor: theme.palette.background.sidebar,
+    color: theme.palette.text.primary,
     borderBottomRightRadius: theme.spacing(3),
     "& .MuiTypography-root": {
       color: "inherit",
     },
     "& .MuiButton-outlined": {
-      color: "#A8F3E5",
-      borderColor: "#52777C",
+      color: theme.palette.text.primary,
+      borderColor: theme.palette.divider,
       "&:hover": {
-        backgroundColor: "#234750",
+        backgroundColor: theme.palette.action.hover,
       },
     },
     [theme.breakpoints.down("sm")]: {
@@ -44,8 +43,8 @@ export const useStyles = makeStyles()((theme) => ({
     margin: theme.spacing(0, 0, 2.5),
     borderRadius: theme.spacing(1.5),
     overflow: "hidden",
-    border: "1px solid #456A70",
-    backgroundColor: "#183942",
+    border: `1px solid ${theme.palette.divider}`,
+    backgroundColor: theme.palette.background.paper,
     "& img": {
       display: "block",
       width: "100%",
@@ -53,11 +52,11 @@ export const useStyles = makeStyles()((theme) => ({
       objectFit: "cover",
     },
     "& figcaption": {
-      borderTop: "1px solid #456A70",
+      borderTop: `1px solid ${theme.palette.divider}`,
       padding: theme.spacing(1, 1.5),
       fontSize: 13,
       fontWeight: 600,
-      color: "#DCEDEA",
+      color: theme.palette.text.secondary,
     },
   },
   startTitle: {
@@ -94,7 +93,7 @@ export const useStyles = makeStyles()((theme) => ({
     borderRadius: theme.spacing(1),
     "&:hover": {
       borderColor: theme.palette.primary.main,
-      backgroundColor: alpha(theme.palette.primary.main, 0.09),
+      backgroundColor: theme.palette.action.hover,
     },
 
     ".MuiButton-startIcon .MuiSvgIcon-fontSizeLarge": {
