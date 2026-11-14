@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 # Performance Guidelines
 
 These rules apply to ALL TypeScript and TSX code in the FacetX monorepo. Violations cause measurable frame drops, memory pressure, or delayed startup.

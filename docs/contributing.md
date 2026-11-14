@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 # Contributing Conventions
 
 These rules apply to all TypeScript and TSX files.
@@ -56,4 +52,4 @@ Every React component must follow this file organization:
 
 ## License Header
 
-Retain the existing copyright and license notices on inherited files. For original FacetX files released under [MIT](../../docs/licenses/MIT.txt), use the applicable copyright notice and `SPDX-License-Identifier: MIT`. See the [README](../../README.md#license) for license scope.
+Retain the existing copyright and license notices on inherited files. For original FacetX files released under [MIT](licenses/MIT.txt), use the applicable copyright notice and `SPDX-License-Identifier: MIT`. See the [README](../README.md#license) for license scope.

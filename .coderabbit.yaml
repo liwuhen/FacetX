@@ -75,7 +75,7 @@ reviews:
         per-message hot paths, missing message batching, and subscriptions that iterate topics no
         panel requested. Verify message-cache/memory budgets are respected and that large buffers
         are released behind the read head. Flag concrete regressions only — do not restate the
-        generic rules already in .github/instructions/performance.instructions.md.
+        generic rules already in docs/performance.md.
 
     - path: "packages/suite-base/src/components/MessagePipeline/**"
       instructions: |

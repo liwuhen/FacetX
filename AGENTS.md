@@ -62,6 +62,13 @@ E2E tests:
 - Retain the license headers on inherited files. Use an `SPDX-License-Identifier: MIT` header and the applicable copyright notice for original FacetX files released under [MIT](docs/licenses/MIT.txt).
 - If changing UI behavior, validate in both desktop and web modes when relevant.
 
+## Code Constraints
+
+- **Defensive coding.** Before adding code for a low-probability concurrency issue or a security edge case, explain the specific failure, its likelihood, and how much code you expect to add. State when the likelihood cannot be estimated. Get the user's approval before adding the code.
+- **Validation at module boundaries.** Validate external data once when it enters a module. Use the validated types and values throughout the module so each condition is checked only once.
+- **Function extraction.** Keep simple logic used once at its call site. Extract it into a function when it needs to be reused or is complex enough to warrant a separate function.
+- **Complexity.** Avoid unnecessary `try/catch` blocks. Keep logic in one function when it can be expressed clearly there.
+
 ## Testing Guidance
 
 - Add or update tests with code changes.
@@ -86,7 +93,8 @@ E2E tests:
 ## Reference Docs
 
 - Main project guide: [README.md](README.md)
-- Contributing and coding standards: [Coding conventions](.github/instructions/contributing.instructions.md)
+- Contributing and coding standards: [Coding conventions](docs/contributing.md)
+- Performance guidelines: [Performance](docs/performance.md)
 - E2E testing details: [e2e/README.md](e2e/README.md)
 - Package scripts and workspace configuration: [package.json](package.json)
 - Package-specific notes:
