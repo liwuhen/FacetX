@@ -93,7 +93,7 @@ Choose **Open sample** to replay an 18-second simulated warehouse patrol with a 
 | Target | Command |
 | :--- | :--- |
 | **Web** | `yarn web:build:prod` |
-| **Desktop** | Run `yarn desktop:build:prod`, then package with `yarn package:darwin`, `yarn package:linux`, or `yarn package:win`. |
+| **Desktop** | Run `yarn desktop:build:prod`, then package with `yarn package:darwin`, `yarn package:linux`, or `yarn package:win`. The macOS command produces separate Apple Silicon (`arm64`) and Intel (`x64`) installers. |
 
 ## License
 

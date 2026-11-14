@@ -151,7 +151,12 @@ async function configureQuickLookExtension(context: AfterPackContext) {
     if (!file.isFile()) {
       throw new Error(`Expected only files in Quick Look webpack output, found: ${file.name}`);
     }
-    await fs.copyFile(path.join(webpackOutputDir, file.name), path.join(appexResources, file.name));
+    if (!file.name.endsWith(".map")) {
+      await fs.copyFile(
+        path.join(webpackOutputDir, file.name),
+        path.join(appexResources, file.name),
+      );
+    }
   }
   log.info("Copied .webpack/quicklook into appex resources");
 

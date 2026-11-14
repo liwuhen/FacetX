@@ -19,7 +19,7 @@ import packageJson from "../package.json";
 const params: WebpackConfigParams = {
   packageJson,
   outputPath: path.resolve(__dirname, ".webpack"),
-  prodSourceMap: "source-map",
+  prodSourceMap: "hidden-source-map",
   rendererContext: path.resolve(__dirname, "renderer"),
   rendererEntrypoint: "./index.tsx",
   mainContext: path.resolve(__dirname, "main"),

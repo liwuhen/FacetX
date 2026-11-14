@@ -93,7 +93,7 @@ yarn install
 | 目标 | 命令 |
 | :--- | :--- |
 | **网页版** | `yarn web:build:prod` |
-| **桌面版** | 先运行 `yarn desktop:build:prod`，再通过 `yarn package:darwin`、`yarn package:linux` 或 `yarn package:win` 为对应平台打包。 |
+| **桌面版** | 先运行 `yarn desktop:build:prod`，再通过 `yarn package:darwin`、`yarn package:linux` 或 `yarn package:win` 为对应平台打包。macOS 会分别生成 Apple Silicon（`arm64`）和 Intel（`x64`）安装包。 |
 
 ## 许可证
 
