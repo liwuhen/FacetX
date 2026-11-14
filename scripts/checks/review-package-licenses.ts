@@ -5,13 +5,13 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import checker from "license-checker";
+import licenseChecker from "license-checker";
 import path from "path";
 import { promisify } from "util";
 
-const initChecker = promisify(checker.init);
+const scanInstalledPackages = promisify(licenseChecker.init);
 
-const ALLOWED_LICENSES = [
+const APPROVED_LICENSES = [
   "MPL-2.0",
   "MIT",
   "BSD",
@@ -29,23 +29,23 @@ const ALLOWED_LICENSES = [
   "BlueOak-1.0.0",
 ];
 
-const EXCLUDED_PACKAGES = ["gl-vec3@1.1.3"];
+const LICENSE_EXCEPTIONS = ["gl-vec3@1.1.3"];
 
-async function main() {
-  const output = await initChecker({
-    start: path.join(__dirname, ".."),
+async function reviewPackageLicenses() {
+  const licenseReport = await scanInstalledPackages({
+    start: path.resolve(__dirname, "../.."),
     summary: true,
-    onlyAllow: ALLOWED_LICENSES.join(";"),
-    excludePackages: EXCLUDED_PACKAGES.join(";"),
+    onlyAllow: APPROVED_LICENSES.join(";"),
+    excludePackages: LICENSE_EXCEPTIONS.join(";"),
     excludePrivatePackages: true,
     color: false,
   });
 
   // eslint-disable-next-line
-  console.log((checker as any).asSummary(output));
+  console.log((licenseChecker as any).asSummary(licenseReport));
 }
 
-main().catch((err: unknown) => {
+reviewPackageLicenses().catch((err: unknown) => {
   console.error(err);
   process.exit(1);
 });

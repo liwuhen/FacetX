@@ -20,7 +20,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "clean": "bash ci/clean-build.sh",
+    "clean": "bash scripts/build/reset-build-outputs.sh",
     "build:packages": "tsc --build --verbose packages/*/tsconfig.json packages/*/src/*/tsconfig.json",
     "desktop:build:dev": "webpack --mode development --progress --config desktop/webpack.config.ts",
     "desktop:build:prod": "webpack --mode production --progress --config desktop/webpack.config.ts",
@@ -35,13 +35,13 @@
     "benchmark:desktop:build:dev": "webpack --mode development --progress --config benchmark/webpack.desktop.config.ts",
     "benchmark:desktop:build:prod": "webpack --mode production --progress --config benchmark/webpack.desktop.config.ts",
     "benchmark:desktop:start": "electron benchmark/.webpack-desktop",
-    "license-check": "ts-node ci/license-check.ts",
+    "license-check": "ts-node scripts/checks/review-package-licenses.ts",
     "format": "biome format --write .",
     "format:ci": "biome format --max-diagnostics=none .",
     "lint": "TIMING=1 eslint --report-unused-disable-directives --cache --fix .",
     "lint:ci": "TIMING=1 eslint --report-unused-disable-directives --cache --max-warnings 0 --config eslint.config.ci.mjs .",
-    "lint:unused-exports": "ts-node ./ci/lint-unused-exports.ts",
-    "lint:dependencies": "ts-node ./ci/lint-dependencies.ts .",
+    "lint:unused-exports": "ts-node scripts/checks/find-unreferenced-suite-exports.ts",
+    "lint:dependencies": "ts-node scripts/checks/verify-workspace-dependencies.ts .",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:debug": "cross-env NODE_OPTIONS='--inspect-brk' jest",
@@ -69,7 +69,6 @@
     "package:linux": "yarn package --linux",
     "package": "cross-env NODE_OPTIONS='-r ts-node/register' electron-builder build --config desktop/electronBuilderConfig.js --publish never",
     "package:e2e": "yarn && yarn clean && yarn desktop:build:prod && yarn package",
-    "release:bump-nightly-version": "node -r ts-node/register ./ci/bump-nightly-version.ts",
     "storybook": "storybook dev --port 9009 --config-dir .storybook",
     "storybook:build": "storybook build --config-dir .storybook --webpack-stats-json",
     "version:all": "yarn workspaces foreach version"
@@ -123,7 +122,6 @@
   },
   "devDependencies": {
     "@actions/core": "1.11.1",
-    "@actions/exec": "1.1.1",
     "@actions/tool-cache": "2.0.2",
     "@babel/core": "7.29.7",
     "@babel/plugin-proposal-decorators": "7.29.7",

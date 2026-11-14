@@ -15,12 +15,13 @@ import { analyzeTsConfig } from "ts-unused-exports";
 //
 // Note: use the "// ts-unused-exports:disable-next-line" comment above an export if you would like to mark it
 // as used even though it appears unused. This might happen for exports which are injected via webpack.
-async function main(): Promise<void> {
-  const results = analyzeTsConfig(path.join(__dirname, "../packages/suite-base/tsconfig.json"), [
-    "--findCompletelyUnusedFiles",
-    "--ignoreLocallyUsed",
-  ]);
-  const ignorePathsRegex = new RegExp(
+async function findUnreferencedSuiteExports(): Promise<void> {
+  const repositoryRoot = path.resolve(__dirname, "../..");
+  const referenceReport = analyzeTsConfig(
+    path.join(repositoryRoot, "packages/suite-base/tsconfig.json"),
+    ["--findCompletelyUnusedFiles", "--ignoreLocallyUsed"],
+  );
+  const pathsOutsideExportCheck = new RegExp(
     [
       String.raw`\.stories\.tsx?$`,
       String.raw`packages/suite-base/src/index\.ts`,
@@ -29,15 +30,14 @@ async function main(): Promise<void> {
     ].join("|"),
   );
 
-  const repoRootPath = path.resolve(__dirname, "..");
-  let hasUnusedExports = false;
+  let hasUnreferencedCode = false;
 
-  for (const [filePath, items] of Object.entries(results.unusedExports)) {
+  for (const [filePath, items] of Object.entries(referenceReport.unusedExports)) {
     if (filePath === "unusedFiles") {
       continue;
     }
-    const pathFromRepoRoot = path.relative(repoRootPath, filePath);
-    if (ignorePathsRegex.test(pathFromRepoRoot)) {
+    const repositoryRelativePath = path.relative(repositoryRoot, filePath);
+    if (pathsOutsideExportCheck.test(repositoryRelativePath)) {
       continue;
     }
     for (const item of items) {
@@ -45,30 +45,30 @@ async function main(): Promise<void> {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (item.location == undefined) {
         info(
-          `::error file=${pathFromRepoRoot}::Unused export ${item.exportName} in ${pathFromRepoRoot}`,
+          `::error file=${repositoryRelativePath}::Unused export ${item.exportName} in ${repositoryRelativePath}`,
         );
       } else {
         info(
-          `::error file=${pathFromRepoRoot},line=${item.location.line},col=${item.location.character}::Unused export ${item.exportName} in ${pathFromRepoRoot}:${item.location.line}:${item.location.character}`,
+          `::error file=${repositoryRelativePath},line=${item.location.line},col=${item.location.character}::Unused export ${item.exportName} in ${repositoryRelativePath}:${item.location.line}:${item.location.character}`,
         );
       }
-      hasUnusedExports = true;
+      hasUnreferencedCode = true;
     }
   }
 
-  for (const filePath of results.unusedFiles ?? []) {
-    const pathFromRepoRoot = path.relative(repoRootPath, filePath);
-    if (ignorePathsRegex.test(pathFromRepoRoot)) {
+  for (const filePath of referenceReport.unusedFiles ?? []) {
+    const repositoryRelativePath = path.relative(repositoryRoot, filePath);
+    if (pathsOutsideExportCheck.test(repositoryRelativePath)) {
       continue;
     }
-    info(`::error file=${pathFromRepoRoot}::Unused file ${pathFromRepoRoot}`);
-    hasUnusedExports = true;
+    info(`::error file=${repositoryRelativePath}::Unused file ${repositoryRelativePath}`);
+    hasUnreferencedCode = true;
   }
-  process.exit(hasUnusedExports ? 1 : 0);
+  process.exit(hasUnreferencedCode ? 1 : 0);
 }
 
 if (require.main === module) {
-  main().catch((e: unknown) => {
+  findUnreferencedSuiteExports().catch((e: unknown) => {
     console.error(e);
     process.exit(1);
   });

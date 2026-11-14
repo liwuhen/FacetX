@@ -6,7 +6,7 @@
     "./*.ts",
     "./*.js",
     "./**/jest.config.ts",
-    "./ci/**/*.ts",
+    "./scripts/**/*.ts",
     "./e2e/ci-helpers/**/*.ts",
     "./benchmark/e2e/ci-helpers/**/*.ts",
     "./package.json"

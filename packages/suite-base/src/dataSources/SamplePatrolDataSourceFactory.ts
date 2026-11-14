@@ -40,7 +40,7 @@ class SamplePatrolDataSourceFactory implements IDataSourceFactory {
     const source = new WorkerSerializedIterableSource({
       initWorker: () => {
         return new Worker(
-          // foxglove-depcheck-used: babel-plugin-transform-import-meta
+          // facetx-depcheck-used: babel-plugin-transform-import-meta
           new URL(
             "@facetx/suite-base/players/IterablePlayer/Mcap/McapIterableSourceWorker.worker",
             import.meta.url,

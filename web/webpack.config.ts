@@ -19,5 +19,5 @@ const params: ConfigParams = {
   version: packageJson.version,
 };
 
-// foxglove-depcheck-used: webpack-dev-server
+// facetx-depcheck-used: webpack-dev-server
 export default [devServerConfig(params), mainConfig(params)];

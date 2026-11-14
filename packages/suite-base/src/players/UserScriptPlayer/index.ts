@@ -177,7 +177,7 @@ export default class UserScriptPlayer implements Player {
 
   // exposed as a static to allow testing to mock/replace
   public static CreateTransformWorker = (): SharedWorker => {
-    // foxglove-depcheck-used: babel-plugin-transform-import-meta
+    // facetx-depcheck-used: babel-plugin-transform-import-meta
     return new SharedWorker(new URL("./transformerWorker/index", import.meta.url), {
       // Although we are using SharedWorkers, we do not actually want to share worker instances
       // between tabs. We achieve this by passing in a unique name.
@@ -187,7 +187,7 @@ export default class UserScriptPlayer implements Player {
 
   // exposed as a static to allow testing to mock/replace
   public static CreateRuntimeWorker = (): SharedWorker => {
-    // foxglove-depcheck-used: babel-plugin-transform-import-meta
+    // facetx-depcheck-used: babel-plugin-transform-import-meta
     return new SharedWorker(new URL("./runtimeWorker/index", import.meta.url), {
       // Although we are using SharedWorkers, we do not actually want to share worker instances
       // between tabs. We achieve this by passing in a unique name.

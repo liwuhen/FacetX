@@ -10,7 +10,7 @@ import EventEmitter from "eventemitter3";
 
 import { H265_TARGET_FRAME_WAIT_MS } from "./h265/constants";
 
-// foxglove-depcheck-used: @types/dom-webcodecs
+// facetx-depcheck-used: @types/dom-webcodecs
 
 // Allow time for 4K H.264 frames to decode in software. The wait ends early when the frame arrives.
 const DEFAULT_TARGET_FRAME_WAIT_MS = 75;

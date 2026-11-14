@@ -2,7 +2,6 @@
   "//": "Jest projects for the FacetX monorepo. Desktop Playwright tests build the app and run separately.",
   "projects": [
     "<rootDir>/benchmark/jest.config.json",
-    "<rootDir>/ci/jest.config.json",
     "<rootDir>/desktop/jest.config.json",
     "<rootDir>/packages/*/jest.config.json"
   ],

@@ -65,7 +65,7 @@ export class TimestampDatasetsBuilder implements IDatasetsBuilder {
 
   public constructor() {
     const worker = new Worker(
-      // foxglove-depcheck-used: babel-plugin-transform-import-meta
+      // facetx-depcheck-used: babel-plugin-transform-import-meta
       new URL("./TimestampDatasetsBuilderImpl.worker", import.meta.url),
     );
     const { remote, dispose } =

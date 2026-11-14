@@ -32,7 +32,7 @@ export class OffscreenCanvasRenderer {
     this.#theme = theme;
     this.#canvas = canvas;
     const worker = new Worker(
-      // foxglove-depcheck-used: babel-plugin-transform-import-meta
+      // facetx-depcheck-used: babel-plugin-transform-import-meta
       new URL("./ChartRenderer.worker", import.meta.url),
     );
 
