@@ -35,13 +35,8 @@ import SettingsTreeEditor from "@facetx/suite-base/components/SettingsTreeEditor
 import AppConfigurationContext from "@facetx/suite-base/context/AppConfigurationContext";
 import { useCurrentLayoutActions } from "@facetx/suite-base/context/CurrentLayoutContext";
 import { PanelsActions } from "@facetx/suite-base/context/CurrentLayoutContext/actions";
-import PanelCatalogContext, {
-  PanelCatalog,
-} from "@facetx/suite-base/context/PanelCatalogContext";
-import {
-  PanelStateStore,
-  usePanelStateStore,
-} from "@facetx/suite-base/context/PanelStateContext";
+import PanelCatalogContext, { PanelCatalog } from "@facetx/suite-base/context/PanelCatalogContext";
+import { PanelStateStore, usePanelStateStore } from "@facetx/suite-base/context/PanelStateContext";
 import {
   UserScriptStateProvider,
   UserScriptStore,

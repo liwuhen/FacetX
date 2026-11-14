@@ -41,12 +41,9 @@ global.OffscreenCanvas = class {
   }
 } as unknown as typeof OffscreenCanvas;
 
-jest.mock(
-  "@facetx/suite-base/components/MessagePathSyntax/simpleGetMessagePathDataItems",
-  () => ({
-    simpleGetMessagePathDataItems: jest.fn(),
-  }),
-);
+jest.mock("@facetx/suite-base/components/MessagePathSyntax/simpleGetMessagePathDataItems", () => ({
+  simpleGetMessagePathDataItems: jest.fn(),
+}));
 
 jest.mock("@facetx/message-path", () => ({
   parseMessagePath: jest.fn(),

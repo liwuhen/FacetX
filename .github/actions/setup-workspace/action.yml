@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Wuhen- Li
+# SPDX-License-Identifier: MIT
+
+name: Set up the FacetX workspace
+description: Install the locked workspace dependencies after checkout.
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 24
+    - name: Enable Yarn
+      shell: bash
+      run: corepack enable yarn
+    - name: Cache Yarn archives
+      uses: actions/cache@v6
+      with:
+        path: .yarn/cache
+        key: facetx-yarn-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('yarn.lock') }}
+        restore-keys: facetx-yarn-${{ runner.os }}-${{ runner.arch }}-
+    - name: Install dependencies
+      shell: bash
+      run: yarn install --immutable

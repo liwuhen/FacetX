@@ -1,2 +1,0 @@
-# Check staged FacetX files before creating a commit.
-yarn lint-staged

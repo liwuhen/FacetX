@@ -17,10 +17,7 @@ import { PanelToolbarControlsProps } from "@facetx/suite-base/components/PanelTo
 import Stack from "@facetx/suite-base/components/Stack";
 import { useSelectedPanels } from "@facetx/suite-base/context/CurrentLayoutContext";
 import PanelCatalogContext from "@facetx/suite-base/context/PanelCatalogContext";
-import {
-  PanelStateStore,
-  usePanelStateStore,
-} from "@facetx/suite-base/context/PanelStateContext";
+import { PanelStateStore, usePanelStateStore } from "@facetx/suite-base/context/PanelStateContext";
 import { useWorkspaceActions } from "@facetx/suite-base/context/Workspace/useWorkspaceActions";
 
 import { PanelActionsDropdown } from "./PanelActionsDropdown";

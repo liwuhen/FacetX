@@ -12,12 +12,8 @@ import { H265_TARGET_FRAME_WAIT_MS } from "./h265/constants";
 
 // foxglove-depcheck-used: @types/dom-webcodecs
 
-// H.264 typically emits a decoded VideoFrame within a couple of milliseconds of submitting an
-// EncodedVideoChunk, so a tight 30 ms ceiling lets us return quickly when decoding is healthy and
-// fail fast when the decoder is stuck. The H.265 budgets live in `./h265/constants.ts` and are
-// much larger because HEVC decoders may need to consume an entire GOP before emitting the target
-// frame.
-const DEFAULT_TARGET_FRAME_WAIT_MS = 10;
+// Allow time for 4K H.264 frames to decode in software. The wait ends early when the frame arrives.
+const DEFAULT_TARGET_FRAME_WAIT_MS = 75;
 
 /** A single chunk of encoded video bitstream representing one frame. */
 export type EncodedVideoFrame = {
@@ -66,6 +62,7 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
   readonly #decoderInit: VideoDecoderInit;
   #decoder: VideoDecoder;
   #decoderConfig: VideoDecoderConfig | undefined;
+  #initializationGeneration = 0;
   readonly #mutex = new Mutex();
   readonly #frameWaiters = new Map<number, FrameWaiter>();
   #lastSubmittedTimestampMicros: number | undefined;
@@ -127,12 +124,16 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
 
   /**
    * Configures the VideoDecoder with the given VideoDecoderConfig. This must be called before
-   * `decode()` or `decodeFrames()` will return a VideoFrame. If hardware-accelerated configuration
-   * fails we fall back to a `no-preference` config so the decoder still functions on machines that
-   * lack hardware support for the codec.
+   * `decode()` or `decodeFrames()` will return a VideoFrame. Prefer software H.264 decoding for
+   * frame-by-frame playback, since hardware decoders can buffer several frames before output.
+   * Returns false if configuration fails or a seek or close invalidates this request.
    */
-  public async init(decoderConfig: VideoDecoderConfig): Promise<void> {
-    await this.#mutex.runExclusive(async () => {
+  public async init(decoderConfig: VideoDecoderConfig): Promise<boolean> {
+    const generation = this.#initializationGeneration;
+    const configured = await this.#mutex.runExclusive(async () => {
+      if (generation !== this.#initializationGeneration) {
+        return false;
+      }
       // optimizeForLatency lets the decoder emit frames as soon as they are ready instead of
       // waiting on a full flush, which means callers do not need to call flush() per chunk.
       // See <https://github.com/w3c/webcodecs/issues/206>.
@@ -140,10 +141,27 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
         ...decoderConfig,
         optimizeForLatency: true,
       };
-      // Fallback used only if the preferred config is rejected (e.g. no hardware HEVC decoder).
+      if (
+        preferredConfig.hardwareAcceleration == undefined &&
+        (preferredConfig.codec.startsWith("avc1.") || preferredConfig.codec.startsWith("avc3."))
+      ) {
+        const softwareConfig: VideoDecoderConfig = {
+          ...preferredConfig,
+          hardwareAcceleration: "prefer-software",
+        };
+        const supportsSoftware = await VideoDecoder.isConfigSupported(softwareConfig).then(
+          (result) => result.supported === true,
+          () => false,
+        );
+        if (generation !== this.#initializationGeneration) {
+          return false;
+        }
+        if (supportsSoftware) {
+          preferredConfig.hardwareAcceleration = softwareConfig.hardwareAcceleration;
+        }
+      }
       const fallbackConfig: VideoDecoderConfig = {
-        ...decoderConfig,
-        optimizeForLatency: true,
+        ...preferredConfig,
         hardwareAcceleration: "no-preference",
       };
 
@@ -169,7 +187,7 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
             `Failed to configure VideoDecoder with ${JSON.stringify(fallbackConfig)}: ${(fallbackError as Error).message}`,
           );
           this.emit("error", err);
-          return;
+          return false;
         }
       }
 
@@ -185,7 +203,9 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
           height: this.#decoderConfig.codedHeight,
         };
       }
+      return true;
     });
+    return configured && generation === this.#initializationGeneration;
   }
 
   /** Returns true if the VideoDecoder is open and configured, ready for decoding. */
@@ -393,6 +413,7 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
   }
 
   #disposePendingState(): void {
+    this.#initializationGeneration++;
     // The decoder is reset/closed by the caller before this runs, so any still-registered waiter
     // will never receive its frame. Abort them all (load-bearing on seek: a post-seek frame could
     // otherwise reuse the same timestamp as a stale waiter).

@@ -1,16 +1,27 @@
-## User-Facing Changes
-
-<!-- will be used as a changelog entry -->
-
 ## Description
 
-<!-- link relevant GitHub issues -->
-<!-- add `docs` label if this PR requires documentation updates -->
-<!-- add relevant metric tracking for experimental / new features -->
+<!-- Explain what changed, why, and any user-visible impact. -->
+
+## Related Issue
+
+<!-- Link the issue if applicable, e.g. Closes #123. -->
+
+## Type of Change
+
+- [ ] Documentation, examples, or dependency update
+- [ ] Bug fix
+- [ ] Improvement to an existing feature
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Security fix
 
 ## Checklist
 
-- [ ] The web version was tested and it is running ok
-- [ ] The desktop version was tested and it is running ok
-- [ ] This change is covered by unit tests
-- [ ] Files constants.ts, types.ts and *.style.ts have been checked and relevant code snippets have been relocated
+<!-- Mark the checks you completed and note any that do not apply. -->
+
+- [ ] I followed the [project conventions](https://github.com/liwuhen/FacetX/blob/main/docs/contributing.md).
+- [ ] `yarn install --immutable` passes locally.
+- [ ] Type checking and linting pass (`yarn run tsc --noEmit` and `yarn lint:ci`).
+- [ ] I built and verified the affected Web or desktop app.
+- [ ] I added or updated tests where needed and ran the relevant tests.
+- [ ] I updated the documentation where relevant.

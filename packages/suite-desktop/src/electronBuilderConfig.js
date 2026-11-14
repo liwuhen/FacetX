@@ -18,7 +18,7 @@ function makeElectronBuilderConfig(params) {
     appId: "dev.facetx.suite",
     npmRebuild: false,
     asar: true,
-    files: ["**/*", "!**/node_modules/**"],
+    files: ["**/*", "!**/node_modules/**", "!**/*.map"],
     directories: {
       app: params.appPath,
       buildResources: path.join(__dirname, "../resources"),
@@ -90,7 +90,7 @@ function makeElectronBuilderConfig(params) {
     mac: {
       target: {
         target: "default",
-        arch: ["universal"],
+        arch: ["arm64", "x64"],
       },
       category: "public.app-category.developer-tools",
       icon: path.join(__dirname, "../resources/icon/icon.icns"),

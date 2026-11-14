@@ -9,10 +9,7 @@ import * as IDB from "idb/with-async-ittr";
 
 import Log from "@facetx/log";
 import { KEY_WORKSPACE_PREFIX } from "@facetx/suite-base/constants/browserStorageKeys";
-import {
-  IExtensionStorage,
-  StoredExtension,
-} from "@facetx/suite-base/services/IExtensionStorage";
+import { IExtensionStorage, StoredExtension } from "@facetx/suite-base/services/IExtensionStorage";
 import { ExtensionInfo } from "@facetx/suite-base/types/Extensions";
 
 const log = Log.getLogger(__filename);

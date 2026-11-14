@@ -6,12 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { Immutable, MessageEvent, Metadata } from "@facetx/suite";
-import {
-  PlayerAlert,
-  Topic,
-  TopicSelection,
-  TopicStats,
-} from "@facetx/suite-base/players/types";
+import { PlayerAlert, Topic, TopicSelection, TopicStats } from "@facetx/suite-base/players/types";
 import { RosDatatypes } from "@facetx/suite-base/types/RosDatatypes";
 import { Time } from "@lichtblick/rostime";
 

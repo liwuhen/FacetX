@@ -7,10 +7,7 @@
 
 import { atan2, eigs, index, isNumber, subset } from "mathjs";
 
-import {
-  NavSatFixMsg,
-  NavSatFixPositionCovarianceType,
-} from "@facetx/suite-base/panels/Map/types";
+import { NavSatFixMsg, NavSatFixPositionCovarianceType } from "@facetx/suite-base/panels/Map/types";
 
 /**
  * Calculates the accuracy of a NavSatFix message, based on its type, and returns

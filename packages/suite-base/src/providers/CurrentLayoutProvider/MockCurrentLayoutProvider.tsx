@@ -14,10 +14,7 @@ import CurrentLayoutContext, {
   LayoutState,
   SelectedLayout,
 } from "@facetx/suite-base/context/CurrentLayoutContext";
-import {
-  LayoutData,
-  PanelsActions,
-} from "@facetx/suite-base/context/CurrentLayoutContext/actions";
+import { LayoutData, PanelsActions } from "@facetx/suite-base/context/CurrentLayoutContext/actions";
 import panelsReducer, {
   defaultPlaybackConfig,
 } from "@facetx/suite-base/providers/CurrentLayoutProvider/reducers";

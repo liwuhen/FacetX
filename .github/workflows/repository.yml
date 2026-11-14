@@ -1,0 +1,64 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Wuhen- Li
+# SPDX-License-Identifier: MIT
+
+name: Repository
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Code quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-workspace
+      - name: Dependency licenses and deduplication
+        run: |
+          yarn license-check
+          yarn dedupe --check
+      - name: Type checking
+        run: yarn run tsc --noEmit
+      - name: Formatting and lint
+        run: |
+          yarn format:ci
+          yarn lint:ci
+          yarn lint:unused-exports
+          yarn lint:dependencies
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-workspace
+      - run: yarn npm audit --all --recursive --severity high
+
+  packages:
+    name: Build workspace packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-workspace
+      - run: yarn build:packages
+
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-workspace
+      - run: yarn test --maxWorkers=100%

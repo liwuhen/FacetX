@@ -109,11 +109,7 @@ function CompatibilityBannerBase({
           {!isChrome && (
             <Typography variant="body2">
               Check out our{" "}
-              <Link
-                color="inherit"
-                href="https://www.google.com/chrome/"
-                target="_blank"
-              >
+              <Link color="inherit" href="https://www.google.com/chrome/" target="_blank">
                 Browser Support documentation
               </Link>{" "}
               for more information.

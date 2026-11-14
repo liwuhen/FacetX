@@ -35,10 +35,7 @@ import {
   DraggedMessagePath,
   MessagePathDropStatus,
 } from "@facetx/suite-base/components/PanelExtensionAdapter";
-import {
-  HUDItemManager,
-  HUDItem,
-} from "@facetx/suite-base/panels/ThreeDeeRender/HUDItemManager";
+import { HUDItemManager, HUDItem } from "@facetx/suite-base/panels/ThreeDeeRender/HUDItemManager";
 import { LayerErrors } from "@facetx/suite-base/panels/ThreeDeeRender/LayerErrors";
 import { ICameraHandler } from "@facetx/suite-base/panels/ThreeDeeRender/renderables/ICameraHandler";
 import IAnalytics from "@facetx/suite-base/services/IAnalytics";

@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Wuhen- Li
+# SPDX-License-Identifier: MIT
+
+name: Desktop
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Desktop production build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-workspace
+      - run: yarn desktop:build:prod
+
+  smoke:
+    name: Desktop smoke tests (${{ matrix.shard }}/2)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    env:
+      TZ: Europe/Lisbon
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-workspace
+      - name: Build the app for UI tests
+        # The UI tests use MUI test IDs emitted only in development builds.
+        run: yarn desktop:build:dev
+      - name: Install the virtual display
+        run: sudo apt-get install -y xvfb x11-xserver-utils
+      - name: Allow Electron user namespaces
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      - name: Exercise the desktop app
+        id: smoke
+        env:
+          SHARD: ${{ matrix.shard }}
+          PLAYWRIGHT_HTML_OPEN: never
+          PLAYWRIGHT_HTML_OUTPUT_DIR: e2e/reports/desktop/html
+          PLAYWRIGHT_JSON_OUTPUT_FILE: e2e/reports/desktop/results.json
+        run: xvfb-run --auto-servernum yarn test:e2e:desktop:smoke:ci --shard="$SHARD/2" --reporter=list,github,html,json
+      - name: Upload desktop test report
+        if: ${{ !cancelled() && (steps.smoke.outcome == 'success' || steps.smoke.outcome == 'failure') }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: desktop-smoke-report-${{ matrix.shard }}
+          path: e2e/reports/desktop/
+          retention-days: 7
+          if-no-files-found: error

@@ -30,14 +30,11 @@ jest.mock("./useMultiSelection", () => ({
   }),
 }));
 jest.mock("@facetx/suite-base/components/TopicList/getDraggedMessagePath");
-jest.mock(
-  "@facetx/suite-base/services/messagePathDragging/MessagePathSelectionProvider",
-  () => ({
-    MessagePathSelectionProvider: jest.fn(({ children }: { children: React.ReactNode }) => (
-      <>{children}</>
-    )),
-  }),
-);
+jest.mock("@facetx/suite-base/services/messagePathDragging/MessagePathSelectionProvider", () => ({
+  MessagePathSelectionProvider: jest.fn(({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  )),
+}));
 jest.mock("@facetx/suite-base/components/DirectTopicStatsUpdater", () => ({
   DirectTopicStatsUpdater: () => undefined,
 }));

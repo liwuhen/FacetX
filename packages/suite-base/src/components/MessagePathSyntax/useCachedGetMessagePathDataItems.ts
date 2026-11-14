@@ -28,9 +28,7 @@ import {
 } from "@facetx/message-path";
 import { Immutable } from "@facetx/suite";
 import * as PanelAPI from "@facetx/suite-base/PanelAPI";
-import useGlobalVariables, {
-  GlobalVariables,
-} from "@facetx/suite-base/hooks/useGlobalVariables";
+import useGlobalVariables, { GlobalVariables } from "@facetx/suite-base/hooks/useGlobalVariables";
 import { MessageEvent, Topic } from "@facetx/suite-base/players/types";
 import { RosDatatypes } from "@facetx/suite-base/types/RosDatatypes";
 import {

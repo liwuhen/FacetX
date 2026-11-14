@@ -181,13 +181,8 @@ export function AppSettingsDialog(
                 <FacetXLogoText color="primary" className={classes.logo} />
               </header>
               <Stack direction="row" alignItems="center" gap={1}>
-                <Typography variant="body2">
-                  FacetX version {FACETX_SUITE_VERSION}
-                </Typography>
-                <CopyButton
-                  size="small"
-                  getText={() => FACETX_SUITE_VERSION?.toString() ?? ""}
-                />
+                <Typography variant="body2">FacetX version {FACETX_SUITE_VERSION}</Typography>
+                <CopyButton size="small" getText={() => FACETX_SUITE_VERSION?.toString() ?? ""} />
               </Stack>
               {Array.from(APP_SETTINGS_ABOUT_ITEMS.values()).map((item) => {
                 return (

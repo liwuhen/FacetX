@@ -7,10 +7,7 @@
 
 import { Fragment, ReactNode, useCallback } from "react";
 
-import {
-  PanelStateStore,
-  usePanelStateStore,
-} from "@facetx/suite-base/context/PanelStateContext";
+import { PanelStateStore, usePanelStateStore } from "@facetx/suite-base/context/PanelStateContext";
 
 /**
  * Wrapper component used to force-remount the panel when key properties like the tabId

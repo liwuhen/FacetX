@@ -323,7 +323,10 @@ describe("LayoutManager", () => {
         data: LayoutBuilder.data({
           configById: {
             "Plot!legacy": { lichtblickPanelTitle: "Legacy title", paths: [] },
-            "Plot!current": { lichtblickPanelTitle: "Old title", facetxPanelTitle: "Current title" },
+            "Plot!current": {
+              lichtblickPanelTitle: "Old title",
+              facetxPanelTitle: "Current title",
+            },
           },
         }),
       });

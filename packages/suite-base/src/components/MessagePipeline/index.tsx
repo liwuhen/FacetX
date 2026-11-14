@@ -21,9 +21,7 @@ import { useGuaranteedContext } from "@facetx/hooks";
 import { Immutable } from "@facetx/suite";
 import { AppSetting } from "@facetx/suite-base/AppSetting";
 import { AlertsContext } from "@facetx/suite-base/context/AlertsContext";
-import CurrentLayoutContext, {
-  LayoutState,
-} from "@facetx/suite-base/context/CurrentLayoutContext";
+import CurrentLayoutContext, { LayoutState } from "@facetx/suite-base/context/CurrentLayoutContext";
 import { useAppConfigurationValue } from "@facetx/suite-base/hooks/useAppConfigurationValue";
 import { GlobalVariables } from "@facetx/suite-base/hooks/useGlobalVariables";
 import {

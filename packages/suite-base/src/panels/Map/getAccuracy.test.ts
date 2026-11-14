@@ -6,10 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { getAccuracy } from "@facetx/suite-base/panels/Map/getAccuracy";
-import {
-  NavSatFixMsg,
-  NavSatFixPositionCovarianceType,
-} from "@facetx/suite-base/panels/Map/types";
+import { NavSatFixMsg, NavSatFixPositionCovarianceType } from "@facetx/suite-base/panels/Map/types";
 
 describe("getAccuracy", () => {
   const position = {

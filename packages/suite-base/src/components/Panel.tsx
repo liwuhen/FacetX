@@ -46,10 +46,7 @@ import PanelLogs from "@facetx/suite-base/components/PanelLogs";
 import { PanelOverlay, PanelOverlayProps } from "@facetx/suite-base/components/PanelOverlay";
 import { PanelRoot } from "@facetx/suite-base/components/PanelRoot";
 import { getPanelTypeFromMosaic } from "@facetx/suite-base/components/PanelToolbar/utils";
-import {
-  loadPanelLogsHeight,
-  savePanelLogsHeight,
-} from "@facetx/suite-base/components/helpers";
+import { loadPanelLogsHeight, savePanelLogsHeight } from "@facetx/suite-base/components/helpers";
 import { PanelLog, PanelStatics, GenericPanelProps } from "@facetx/suite-base/components/types";
 import {
   useCurrentLayoutActions,

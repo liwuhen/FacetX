@@ -57,9 +57,7 @@ describe("browserStorageKeys", () => {
     expect(storageKeys.SESSION_STORAGE_LOGS_SETTINGS).toBe(
       `${randomWorkspace}.blick.logs-settings`,
     );
-    expect(storageKeys.SESSION_STORAGE_FACETX_WORKSPACE).toBe(
-      `${randomWorkspace}.fox.workspace`,
-    );
+    expect(storageKeys.SESSION_STORAGE_FACETX_WORKSPACE).toBe(`${randomWorkspace}.fox.workspace`);
     expect(storageKeys.SESSION_STORAGE_I18N_LANGUAGE).toBe(`${randomWorkspace}.i18nextLng`);
   });
 

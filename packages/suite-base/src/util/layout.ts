@@ -35,11 +35,7 @@ import {
 } from "@facetx/suite-base/context/CurrentLayoutContext/actions";
 import { reportError } from "@facetx/suite-base/reportError";
 import { TabConfig, TabLocation, TabPanelConfig } from "@facetx/suite-base/types/layouts";
-import {
-  PanelConfig,
-  MosaicDropTargetPosition,
-  SavedProps,
-} from "@facetx/suite-base/types/panels";
+import { PanelConfig, MosaicDropTargetPosition, SavedProps } from "@facetx/suite-base/types/panels";
 
 import { TAB_PANEL_TYPE } from "./constants";
 

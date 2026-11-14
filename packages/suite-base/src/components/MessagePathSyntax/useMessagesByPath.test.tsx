@@ -20,9 +20,7 @@ import React, { PropsWithChildren } from "react";
 
 import useMessagesByPath from "@facetx/suite-base/components/MessagePathSyntax/useMessagesByPath";
 import MockMessagePipelineProvider from "@facetx/suite-base/components/MessagePipeline/MockMessagePipelineProvider";
-import useGlobalVariables, {
-  GlobalVariables,
-} from "@facetx/suite-base/hooks/useGlobalVariables";
+import useGlobalVariables, { GlobalVariables } from "@facetx/suite-base/hooks/useGlobalVariables";
 import { PlayerStateActiveData, Topic, MessageEvent } from "@facetx/suite-base/players/types";
 import MockCurrentLayoutProvider from "@facetx/suite-base/providers/CurrentLayoutProvider/MockCurrentLayoutProvider";
 import { RosDatatypes } from "@facetx/suite-base/types/RosDatatypes";

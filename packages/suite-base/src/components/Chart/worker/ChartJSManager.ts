@@ -30,11 +30,7 @@ import { type Options as DatalabelsPluginOptions } from "chartjs-plugin-datalabe
 import EventEmitter from "eventemitter3";
 
 import Logger from "@facetx/log";
-import {
-  RpcElement,
-  RpcScales,
-  TypedChartData,
-} from "@facetx/suite-base/components/Chart/types";
+import { RpcElement, RpcScales, TypedChartData } from "@facetx/suite-base/components/Chart/types";
 import {
   addEventListener,
   removeEventListener,

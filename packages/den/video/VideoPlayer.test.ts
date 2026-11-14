@@ -48,6 +48,10 @@ function setup(options: SetupOptions = {}): MockDecoderHandle & {
   };
 
   class MockVideoDecoder implements MockDecoderInstance {
+    public static async isConfigSupported(): Promise<VideoDecoderSupport> {
+      return { supported: true };
+    }
+
     public state: MockDecoderInstance["state"] = "unconfigured";
     public decodeQueueSize = 0;
     readonly #init: VideoDecoderInit;
@@ -143,6 +147,10 @@ describe("VideoPlayer", () => {
     const outputFrames = new Map<number, (frame: VideoFrame) => void>();
 
     class MockVideoDecoder {
+      public static async isConfigSupported(): Promise<VideoDecoderSupport> {
+        return { supported: true };
+      }
+
       public state: "configured" | "closed" | "unconfigured" = "unconfigured";
       readonly #init: VideoDecoderInit;
 
@@ -180,12 +188,82 @@ describe("VideoPlayer", () => {
       { data: new Uint8Array([2]), timestampMicros: 33333, type: "delta" },
     ]);
     await Promise.resolve();
-    await jest.advanceTimersByTimeAsync(10);
+    await jest.advanceTimersByTimeAsync(75);
     // The reference frame arrives after the deadline; it has no waiter and is dropped.
     outputFrames.get(0)?.(createFrame(0));
 
     // Then decodeFrames resolves with a timeout (the de-serialized path has no intermediate result)
     await expect(decodePromise).resolves.toEqual<DecodeFramesResult>({ type: "timeout" });
+  });
+
+  it("prefers software for H.264 and accepts a frame decoded after 40 ms", async () => {
+    const { player, outputFrames } = setup({ trackDecodes: true });
+    await player.init({ codec: "avc1.4D0C33", codedWidth: 3840, codedHeight: 2160 });
+    expect(player.decoderConfig()?.hardwareAcceleration).toBe("prefer-software");
+
+    const decodePromise = player.decodeFrames([
+      { data: new Uint8Array([1]), timestampMicros: 0, type: "key" },
+    ]);
+    await jest.advanceTimersByTimeAsync(40);
+    const frame = createFrame(0);
+    outputFrames.get(0)?.(frame);
+
+    await expect(decodePromise).resolves.toEqual({ type: "target", frame });
+  });
+
+  it("uses the default decoder when software H.264 is unsupported", async () => {
+    const { player } = setup();
+    jest.spyOn(VideoDecoder, "isConfigSupported").mockResolvedValue({ supported: false });
+
+    await player.init({ codec: "avc1.4D0C33" });
+
+    expect(player.decoderConfig()?.hardwareAcceleration).toBeUndefined();
+  });
+
+  it("does not reopen a decoder closed while the H.264 support probe is pending", async () => {
+    const { player, decoders } = setup();
+    let resolveProbe!: (support: VideoDecoderSupport) => void;
+    const probe = jest.spyOn(VideoDecoder, "isConfigSupported").mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolveProbe = resolve;
+      }),
+    );
+
+    const init = player.init({ codec: "avc1.4D0C33" });
+    await jest.advanceTimersByTimeAsync(0);
+    expect(probe).toHaveBeenCalledTimes(1);
+
+    player.close();
+    resolveProbe({ supported: true });
+    await expect(init).resolves.toBe(false);
+
+    expect(decoders.map((decoder) => decoder.state)).toEqual(["closed"]);
+    expect(player.decoderConfig()).toBeUndefined();
+  });
+
+  it("keeps the decoder unconfigured after a seek during the H.264 support probe", async () => {
+    const { player, decoders } = setup();
+    let resolveProbe!: (support: VideoDecoderSupport) => void;
+    const probe = jest.spyOn(VideoDecoder, "isConfigSupported").mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolveProbe = resolve;
+      }),
+    );
+
+    const init = player.init({ codec: "avc1.4D0C33" });
+    await jest.advanceTimersByTimeAsync(0);
+    expect(probe).toHaveBeenCalledTimes(1);
+
+    player.resetForSeek();
+    resolveProbe({ supported: true });
+    await expect(init).resolves.toBe(false);
+
+    expect(decoders.map((decoder) => decoder.state)).toEqual(["unconfigured"]);
+    expect(player.decoderConfig()).toBeUndefined();
+
+    await expect(player.init({ codec: "avc1.4D0C32" })).resolves.toBe(true);
+    expect(player.isInitialized()).toBe(true);
+    expect(player.decoderConfig()?.codec).toBe("avc1.4D0C32");
   });
 
   it("should not return an intermediate HEVC frame before decode queue drain", async () => {
@@ -474,6 +552,10 @@ describe("VideoPlayer", () => {
     let releaseFirstDecode: (() => void) | undefined;
 
     class MockVideoDecoder {
+      public static async isConfigSupported(): Promise<VideoDecoderSupport> {
+        return { supported: true };
+      }
+
       public state: "configured" | "closed" | "unconfigured" = "unconfigured";
       public decodeQueueSize = 0;
       readonly #init: VideoDecoderInit;

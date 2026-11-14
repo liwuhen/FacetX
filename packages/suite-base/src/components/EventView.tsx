@@ -11,10 +11,7 @@ import { Fragment } from "react";
 import { makeStyles } from "tss-react/mui";
 
 import { HighlightedText } from "@facetx/suite-base/components/HighlightedText";
-import {
-  TimelinePositionedEvent,
-  DataSourceEvent,
-} from "@facetx/suite-base/context/EventsContext";
+import { TimelinePositionedEvent, DataSourceEvent } from "@facetx/suite-base/context/EventsContext";
 
 const useStyles = makeStyles<void, "eventMetadata" | "eventSelected">()(
   (theme, _params, classes) => ({

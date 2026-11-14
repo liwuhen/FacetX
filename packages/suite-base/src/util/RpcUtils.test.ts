@@ -16,9 +16,7 @@
 //   You may not use this file except in compliance with the License.
 
 import delay from "@facetx/suite-base/util/delay";
-import sendNotification, {
-  setNotificationHandler,
-} from "@facetx/suite-base/util/sendNotification";
+import sendNotification, { setNotificationHandler } from "@facetx/suite-base/util/sendNotification";
 
 import Rpc, { createLinkedChannels } from "./Rpc";
 import { setupReceiveReportErrorHandler } from "./RpcMainThreadUtils";

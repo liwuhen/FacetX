@@ -25,10 +25,7 @@ import {
   FAST_FIND_ITEM_CUTOFF,
   MAX_FZF_MATCHES,
 } from "@facetx/suite-base/components/Autocomplete/constants";
-import {
-  AutocompleteProps,
-  IAutocomplete,
-} from "@facetx/suite-base/components/Autocomplete/types";
+import { AutocompleteProps, IAutocomplete } from "@facetx/suite-base/components/Autocomplete/types";
 
 import { ListboxAdapterChild, ReactWindowListboxAdapter } from "./ReactWindowListboxAdapter";
 

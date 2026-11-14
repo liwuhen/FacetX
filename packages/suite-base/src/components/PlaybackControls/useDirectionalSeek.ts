@@ -4,10 +4,7 @@
 import { useCallback } from "react";
 
 import { AppSetting } from "@facetx/suite-base/AppSetting";
-import {
-  DIRECTION,
-  jumpSeek,
-} from "@facetx/suite-base/components/PlaybackControls/sharedHelpers";
+import { DIRECTION, jumpSeek } from "@facetx/suite-base/components/PlaybackControls/sharedHelpers";
 import { useAppConfigurationValue } from "@facetx/suite-base/hooks";
 import { Player } from "@facetx/suite-base/players/types";
 import BroadcastManager from "@facetx/suite-base/util/broadcast/BroadcastManager";

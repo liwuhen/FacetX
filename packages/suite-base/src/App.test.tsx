@@ -17,9 +17,7 @@ import LayoutStorageContext from "@facetx/suite-base/context/LayoutStorageContex
 import NativeAppMenuContext, {
   INativeAppMenu,
 } from "@facetx/suite-base/context/NativeAppMenuContext";
-import NativeWindowContext, {
-  INativeWindow,
-} from "@facetx/suite-base/context/NativeWindowContext";
+import NativeWindowContext, { INativeWindow } from "@facetx/suite-base/context/NativeWindowContext";
 import { UserScriptStateProvider } from "@facetx/suite-base/context/UserScriptStateContext";
 import AlertsContextProvider from "@facetx/suite-base/providers/AlertsContextProvider";
 import AppParametersProvider from "@facetx/suite-base/providers/AppParametersProvider";

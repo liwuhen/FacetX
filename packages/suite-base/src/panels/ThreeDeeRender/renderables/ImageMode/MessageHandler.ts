@@ -13,10 +13,7 @@ import {
 import * as _ from "lodash-es";
 
 import { Immutable, MessageEvent } from "@facetx/suite";
-import {
-  HUDItem,
-  HUDItemManager,
-} from "@facetx/suite-base/panels/ThreeDeeRender/HUDItemManager";
+import { HUDItem, HUDItemManager } from "@facetx/suite-base/panels/ThreeDeeRender/HUDItemManager";
 import { ImageModeConfig } from "@facetx/suite-base/panels/ThreeDeeRender/IRenderer";
 import {
   AnyImage,

@@ -10,10 +10,7 @@ import {
   IDataSourceFactory,
   DataSourceFactoryInitializeArgs,
 } from "@facetx/suite-base/context/PlayerSelectionContext";
-import {
-  IterablePlayer,
-  WorkerIterableSource,
-} from "@facetx/suite-base/players/IterablePlayer";
+import { IterablePlayer, WorkerIterableSource } from "@facetx/suite-base/players/IterablePlayer";
 import { Player } from "@facetx/suite-base/players/types";
 
 class UlogLocalDataSourceFactory implements IDataSourceFactory {

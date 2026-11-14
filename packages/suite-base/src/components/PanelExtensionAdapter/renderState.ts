@@ -23,11 +23,7 @@ import {
   EMPTY_GLOBAL_VARIABLES,
   GlobalVariables,
 } from "@facetx/suite-base/hooks/useGlobalVariables";
-import {
-  MessageBlock,
-  PlayerState,
-  Topic as PlayerTopic,
-} from "@facetx/suite-base/players/types";
+import { MessageBlock, PlayerState, Topic as PlayerTopic } from "@facetx/suite-base/players/types";
 import { HoverValue } from "@facetx/suite-base/types/hoverValue";
 import { InstalledMessageConverter } from "@facetx/suite-base/types/messageConverters";
 import { compare, toSec } from "@lichtblick/rostime";
