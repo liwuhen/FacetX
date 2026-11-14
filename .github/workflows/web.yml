@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Wuhen- Li
+# SPDX-License-Identifier: MIT
+
+name: Web
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Web production build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-workspace
+      - run: yarn web:build:prod
+
+  smoke:
+    name: Web smoke tests
+    runs-on: ubuntu-24.04
+    env:
+      TZ: Europe/Lisbon
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-workspace
+      - name: Install Chromium
+        run: yarn playwright install --with-deps chromium
+      - name: Exercise the Web app
+        id: smoke
+        env:
+          PLAYWRIGHT_HTML_OPEN: never
+          PLAYWRIGHT_HTML_OUTPUT_DIR: e2e/reports/web/html
+          PLAYWRIGHT_JSON_OUTPUT_FILE: e2e/reports/web/results.json
+        run: yarn test:e2e:web:smoke:ci --reporter=list,github,html,json
+      - name: Upload Web test report
+        if: ${{ !cancelled() && (steps.smoke.outcome == 'success' || steps.smoke.outcome == 'failure') }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: web-smoke-report
+          path: e2e/reports/web/
+          retention-days: 7
+          if-no-files-found: error
