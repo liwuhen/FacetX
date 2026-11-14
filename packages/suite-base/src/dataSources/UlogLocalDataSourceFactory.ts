@@ -29,7 +29,7 @@ class UlogLocalDataSourceFactory implements IDataSourceFactory {
     const source = new WorkerIterableSource({
       initWorker: () => {
         return new Worker(
-          // foxglove-depcheck-used: babel-plugin-transform-import-meta
+          // facetx-depcheck-used: babel-plugin-transform-import-meta
           new URL(
             "@facetx/suite-base/players/IterablePlayer/ulog/UlogIterableSourceWorker.worker",
             import.meta.url,

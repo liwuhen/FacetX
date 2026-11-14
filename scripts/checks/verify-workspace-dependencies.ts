@@ -14,14 +14,12 @@ import path from "path";
 
 /**
  * Detect comments of the form
- * // foxglove-depcheck-used: ..., ...
+ * // facetx-depcheck-used: ..., ...
  */
-const commentDetector: Detector = (node) => {
+const detectExplicitDependencyUse: Detector = (node) => {
   const results: string[] = [];
   if (node.type === "CommentBlock" || node.type === "CommentLine") {
-    for (const match of (node.value as string).matchAll(
-      /foxglove-depcheck-used: ([@/\w\-_,\s]+)/g,
-    )) {
+    for (const match of (node.value as string).matchAll(/facetx-depcheck-used: ([@/\w\-_,\s]+)/g)) {
       results.push(...match[1]!.split(/[,\s]+/));
     }
   }
@@ -31,7 +29,7 @@ const commentDetector: Detector = (node) => {
 /**
  * Detect TypeScript triple slash references
  */
-const tripleSlashDetector: Detector = (node) => {
+const detectTypeReferences: Detector = (node) => {
   const results: string[] = [];
   if (node.type === "CommentLine") {
     for (const match of (node.value as string).matchAll(/^\/ <reference types="(.+)" \/>/g)) {
@@ -41,12 +39,16 @@ const tripleSlashDetector: Detector = (node) => {
   return results;
 };
 
-const globAsync = promisify(glob);
+const matchWorkspacePaths = promisify(glob);
 
-async function run(rootPath: string) {
+async function inspectWorkspaceDependencies(rootPath: string) {
   info(`Linting dependencies in ${rootPath}...`);
   const options: depcheck.Options = {
-    detectors: [...Object.values(depcheck.detector), commentDetector, tripleSlashDetector],
+    detectors: [
+      ...Object.values(depcheck.detector),
+      detectExplicitDependencyUse,
+      detectTypeReferences,
+    ],
     ignorePatterns: ["dist/", ".webpack/", ".webpack-desktop/"],
     // These come from `/// <reference types="X" />` directives or tsconfig `types` entries that are
     // satisfied by an `@types/*` package (or root-provided types) rather than a runtime package
@@ -64,11 +66,11 @@ async function run(rootPath: string) {
   return await depcheck(rootPath, options);
 }
 
-function printAndAnalyzeResults(unused: depcheck.Results, packageName: string) {
-  let hadError = false;
+function reportWorkspaceIssues(unused: depcheck.Results, packageName: string) {
+  let hasIssues = false;
 
   if (unused.devDependencies.length > 0) {
-    hadError = true;
+    hasIssues = true;
 
     error(`Unused devDependencies in ${packageName}:`);
     for (const dep of unused.devDependencies) {
@@ -78,7 +80,7 @@ function printAndAnalyzeResults(unused: depcheck.Results, packageName: string) {
   }
 
   if (unused.dependencies.length > 0) {
-    hadError = true;
+    hasIssues = true;
     error(`Unused dependencies in ${packageName}:`);
     for (const dep of unused.dependencies) {
       info(`- ${dep}`);
@@ -91,7 +93,7 @@ function printAndAnalyzeResults(unused: depcheck.Results, packageName: string) {
   delete unused.missing[packageName];
 
   if (Object.keys(unused.missing).length > 0) {
-    hadError = true;
+    hasIssues = true;
     error(`Missing dependencies in ${packageName}:`);
     for (const [dep, locations] of Object.entries(unused.missing)) {
       info(`- ${dep} (used in ${locations[0]!})`);
@@ -100,7 +102,7 @@ function printAndAnalyzeResults(unused: depcheck.Results, packageName: string) {
   }
 
   if (Object.keys(unused.invalidFiles).length > 0) {
-    hadError = true;
+    hasIssues = true;
     error(`Invalid files in ${packageName}:`);
     for (const [filePath, err] of Object.entries(unused.invalidFiles)) {
       info(`- ${filePath} (${err})`);
@@ -109,7 +111,7 @@ function printAndAnalyzeResults(unused: depcheck.Results, packageName: string) {
   }
 
   if (Object.keys(unused.invalidDirs).length > 0) {
-    hadError = true;
+    hasIssues = true;
     error(`Invalid directories in ${packageName}:`);
     for (const [dirPath, err] of Object.entries(unused.invalidDirs)) {
       info(`- ${dirPath} (${err})`);
@@ -117,17 +119,17 @@ function printAndAnalyzeResults(unused: depcheck.Results, packageName: string) {
     info("");
   }
 
-  if (!hadError) {
+  if (!hasIssues) {
     info(`No missing or unused dependencies in ${packageName}!`);
     info("");
   }
 
-  return !hadError;
+  return !hasIssues;
 }
 
-async function getAllWorkspacePackages(roots: string[]) {
+async function discoverWorkspaces(roots: string[]) {
   const results: { name: string; path: string }[] = [];
-  const workspacePackages: string[] = [];
+  const workspaceDirectories: string[] = [];
   for (const workspaceRoot of roots) {
     const workspaceInfo = await import(path.resolve(process.cwd(), workspaceRoot, "package.json"));
     const patterns: string[] = Array.isArray(workspaceInfo.workspaces)
@@ -137,7 +139,7 @@ async function getAllWorkspacePackages(roots: string[]) {
         : [];
     const cwd = path.resolve(process.cwd(), workspaceRoot);
     for (const pattern of patterns) {
-      const matches = await globAsync(pattern, { cwd });
+      const matches = await matchWorkspacePaths(pattern, { cwd });
       for (const packagePath of matches) {
         const absPath = path.resolve(cwd, packagePath);
         const packageJsonPath = path.join(absPath, "package.json");
@@ -145,11 +147,11 @@ async function getAllWorkspacePackages(roots: string[]) {
           info(`Skipping ${absPath} (no package.json)`);
           continue;
         }
-        workspacePackages.push(absPath);
+        workspaceDirectories.push(absPath);
       }
     }
   }
-  for (const packagePath of workspacePackages) {
+  for (const packagePath of workspaceDirectories) {
     try {
       const packageInfo = await import(path.join(packagePath, "package.json"));
       const name = packageInfo.name;
@@ -169,24 +171,24 @@ async function getAllWorkspacePackages(roots: string[]) {
   return results;
 }
 
-async function main() {
+async function verifyWorkspaceDependencies() {
   const roots = process.argv.slice(2);
   if (roots.length === 0) {
-    error("Usage: lint-dependencies [workspace1] [workspace2] ...");
+    error("Usage: yarn lint:dependencies [workspace1] [workspace2] ...");
     process.exit(1);
   }
   info(`Linting dependencies in workspaces: ${JSON.stringify(roots, undefined, 2)}`);
-  const packages = await getAllWorkspacePackages(roots);
-  let hadError = false;
+  const packages = await discoverWorkspaces(roots);
+  let hasIssues = false;
   for (const pkg of packages) {
-    const results = await run(pkg.path);
-    if (!printAndAnalyzeResults(results, pkg.name)) {
-      hadError = true;
+    const results = await inspectWorkspaceDependencies(pkg.path);
+    if (!reportWorkspaceIssues(results, pkg.name)) {
+      hasIssues = true;
     }
   }
-  if (hadError) {
+  if (hasIssues) {
     info(
-      "NOTE: Dependencies can be marked explicitly used with a comment, e.g.:\n  // foxglove-depcheck-used: foo-package",
+      "NOTE: Dependencies can be marked explicitly used with a comment, e.g.:\n  // facetx-depcheck-used: foo-package",
     );
     process.exit(1);
   } else {
@@ -194,6 +196,6 @@ async function main() {
   }
 }
 
-main().catch((err: unknown) => {
+verifyWorkspaceDependencies().catch((err: unknown) => {
   console.error(err);
 });

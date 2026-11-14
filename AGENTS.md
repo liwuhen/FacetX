@@ -50,7 +50,8 @@ E2E tests:
 - `packages/suite-web/`: Web-specific internal package
 - `packages/suite/`: Extension API types
 - `e2e/`: Playwright end-to-end tests
-- `ci/`: CI and repository maintenance scripts
+- `scripts/build/`: Local build maintenance
+- `scripts/checks/`: Workspace checks used locally and by GitHub Actions
 - `patches/`: Yarn patch protocol patches for third-party dependencies
 
 ## High-Impact Conventions

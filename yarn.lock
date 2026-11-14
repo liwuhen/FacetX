@@ -12165,7 +12165,6 @@ __metadata:
   resolution: "facetx@workspace:."
   dependencies:
     "@actions/core": "npm:1.11.1"
-    "@actions/exec": "npm:1.1.1"
     "@actions/tool-cache": "npm:2.0.2"
     "@babel/core": "npm:7.29.7"
     "@babel/plugin-proposal-decorators": "npm:7.29.7"

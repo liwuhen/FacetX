@@ -35,7 +35,7 @@ type PartialUpdate = Partial<ChartUpdateMessage>;
 const log = Logger.getLogger(__filename);
 
 function makeChartJSWorker() {
-  // foxglove-depcheck-used: babel-plugin-transform-import-meta
+  // facetx-depcheck-used: babel-plugin-transform-import-meta
   return new Worker(new URL("./worker/main", import.meta.url));
 }
 

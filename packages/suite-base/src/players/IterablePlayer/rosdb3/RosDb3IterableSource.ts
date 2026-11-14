@@ -46,7 +46,7 @@ export class RosDb3IterableSource implements ISerializedIterableSource {
 
   public async initialize(): Promise<Initialization> {
     const res = await fetch(
-      // foxglove-depcheck-used: babel-plugin-transform-import-meta
+      // facetx-depcheck-used: babel-plugin-transform-import-meta
       new URL("@foxglove/sql.js/dist/sql-wasm.wasm", import.meta.url).toString(),
     );
     const sqlWasm = await (await res.blob()).arrayBuffer();

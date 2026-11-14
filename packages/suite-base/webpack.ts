@@ -97,12 +97,12 @@ export function makeConfig(
         "@facetx/suite-base": _nodeFileURLToPath(new URL("src", dirHref)),
       },
       fallback: {
-        path: localRequire.resolve("path-browserify"), // foxglove-depcheck-used: path-browserify
-        stream: localRequire.resolve("readable-stream"), // foxglove-depcheck-used: readable-stream
+        path: localRequire.resolve("path-browserify"), // facetx-depcheck-used: path-browserify
+        stream: localRequire.resolve("readable-stream"), // facetx-depcheck-used: readable-stream
         assert: false,
-        zlib: localRequire.resolve("browserify-zlib"), // foxglove-depcheck-used: browserify-zlib
-        crypto: localRequire.resolve("crypto-browserify"), // foxglove-depcheck-used: crypto-browserify
-        vm: localRequire.resolve("vm-browserify"), // foxglove-depcheck-used: vm-browserify
+        zlib: localRequire.resolve("browserify-zlib"), // facetx-depcheck-used: browserify-zlib
+        crypto: localRequire.resolve("crypto-browserify"), // facetx-depcheck-used: crypto-browserify
+        vm: localRequire.resolve("vm-browserify"), // facetx-depcheck-used: vm-browserify
 
         // TypeScript tries to use this when running in node
         perf_hooks: false,
@@ -146,7 +146,7 @@ export function makeConfig(
           resourceQuery: { not: [/raw/] },
           use: [
             {
-              loader: "ts-loader", // foxglove-depcheck-used: ts-loader
+              loader: "ts-loader", // facetx-depcheck-used: ts-loader
               options: {
                 transpileOnly: true,
                 // https://github.com/TypeStrong/ts-loader#onlycompilebundledfiles
@@ -181,14 +181,14 @@ export function makeConfig(
         { test: /\.(md|template)$/, type: "asset/source" },
         {
           test: /\.svg$/,
-          loader: "@svgr/webpack", // foxglove-depcheck-used: @svgr/webpack
+          loader: "@svgr/webpack", // facetx-depcheck-used: @svgr/webpack
           options: {
             svgo: {
               plugins: [{ removeViewBox: false }, { removeDimensions: false }],
             },
           },
         },
-        { test: /\.ne$/, loader: "nearley-loader" }, // foxglove-depcheck-used: nearley-loader
+        { test: /\.ne$/, loader: "nearley-loader" }, // facetx-depcheck-used: nearley-loader
         {
           test: /\.(png|jpg|gif)$/i,
           type: "asset",
@@ -200,17 +200,17 @@ export function makeConfig(
         },
         {
           test: /\.css$/,
-          loader: "style-loader", // foxglove-depcheck-used: style-loader
+          loader: "style-loader", // facetx-depcheck-used: style-loader
           sideEffects: true,
         },
         {
           test: /\.css$/,
-          loader: "css-loader", // foxglove-depcheck-used: css-loader
+          loader: "css-loader", // facetx-depcheck-used: css-loader
           options: { sourceMap: true },
         },
         {
           test: /\.css$/,
-          loader: "esbuild-loader", // foxglove-depcheck-used: esbuild-loader
+          loader: "esbuild-loader", // facetx-depcheck-used: esbuild-loader
           options: { loader: "css", minify: !isDev },
         },
         { test: /\.woff2?$/, type: "asset/inline" },
@@ -222,7 +222,7 @@ export function makeConfig(
           // https://github.com/microsoft/TypeScript/issues/39436
           // Prettier's TS parser also bundles the same code: https://github.com/prettier/prettier/issues/11076
           test: /[\\/]node_modules[\\/]typescript[\\/]lib[\\/]typescript\.js$|[\\/]node_modules[\\/]prettier[\\/]plugins[\\/]typescript\.m?js$/,
-          loader: "string-replace-loader", // foxglove-depcheck-used: string-replace-loader
+          loader: "string-replace-loader", // facetx-depcheck-used: string-replace-loader
           options: {
             multiple: [
               {
